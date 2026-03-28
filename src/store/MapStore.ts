@@ -42,40 +42,40 @@ export default {
     getTitle(state) {
       return state.title
     },
-     setting_436(state){
-		return {
-      col1:state.zamESU436.slice(0,4),
-      col2:state.zamESU436.slice(4),
-      col1Title:"Nk",
-      col2Title:"Nv"
-    }
-},
+    setting_436(state){
+  		return {
+        col1:state.zamESU436.slice(0,4),
+        col2:state.zamESU436.slice(4),
+        col1Title:"Nk",
+        col2Title:"Nv"
+      }
+    },
 
-     setting_222(state){
-		return {
-      col1:state.zam222_col1,
-      col2:state.zam222_col2,
-      col1Title:"Nnd, Nvd",
-      col2Title:"Виброподвеска",
-    }
-},
+    setting_222(state){
+  		return {
+        col1:state.zam222_col1,
+        col2:state.zam222_col2,
+        col1Title:"Nnd, Nvd",
+        col2Title:"Виброподвеска",
+      }
+    },
 
-     setting_errd436(state){
-		return {
-      col1:state.zamERRD436.slice(0,5),
-      col2:state.zamERRD436.slice(5),
-      col1Title:"FvD",
-      col2Title:"FvD",
-    }
-},
+    setting_errd436(state){
+  		return {
+        col1:state.zamERRD436.slice(0,5),
+        col2:state.zamERRD436.slice(5),
+        col1Title:"FvD",
+        col2Title:"FvD",
+      }
+    },
 
-     setting(state){
-		return {
-      "ЭСУ-436":state.getters.setting_436,
-      "ЭРРД-436":state.getters.setting_errd436,
-      "ЭСУ-222":state.getters.setting_222,        
-    }
-},
+    setting(state){
+  		return {
+        "ЭСУ-436":state.setting_436,
+        "ЭРРД-436":state.setting_errd436,
+        "ЭСУ-222":state.setting_222,
+      }
+    },
   },
   mutations: {
 
@@ -87,7 +87,6 @@ export default {
     console.log("updateColor")
     state.butColors[index]="btn-danger"
     },
-
   },
 
 

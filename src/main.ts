@@ -3,7 +3,12 @@ import './style.css'
 import App from "./App.vue"
 import VibeUI from '@velkymx/vibeui'
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css"
+import "../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+
+
+
 import store from './store'
+
 
 createApp(App)
   .use(VibeUI)
