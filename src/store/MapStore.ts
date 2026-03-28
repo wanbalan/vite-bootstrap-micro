@@ -1,9 +1,9 @@
 export default {
   state: {
+
     title: "ЭСУ-436",
-    zoom: 15,
-    peeople:[],
     butColors:Array(10).fill("btn-success"),
+
     zamERRD436:[{ gen1:{ ch1: { gz:"5500", U: "2" }, ch2:{ gz:  "", U:  ""} } },
       { gen1:{ ch1: { gz:"14000", U: "2" }, ch2:{ gz:  "", U:  ""} } },
       { gen1:{ ch1: { gz:"1500", U: "2" }, ch2:{ gz:  "", U:  ""} } },
@@ -36,8 +36,47 @@ export default {
     zam222_col1:[{ gen1:{ ch1: { gz: "10000", U: "2" }, ch2:{ gz:  "65", U:  "2"} } },
     { gen1:{ ch1: { gz: "2000", U: "2" }, ch2:{ gz:  "500", U:  "2"} } },
     { gen1:{ ch1: { gz: "4000", U: "2" }, ch2:{ gz:  "1000", U:  "2"} } }],
-  },
 
+  },
+  getters: {
+    getTitle(state) {
+      return state.title
+    },
+     setting_436(state){
+		return {
+      col1:state.zamESU436.slice(0,4),
+      col2:state.zamESU436.slice(4),
+      col1Title:"Nk",
+      col2Title:"Nv"
+    }
+},
+
+     setting_222(state){
+		return {
+      col1:state.zam222_col1,
+      col2:state.zam222_col2,
+      col1Title:"Nnd, Nvd",
+      col2Title:"Виброподвеска",
+    }
+},
+
+     setting_errd436(state){
+		return {
+      col1:state.zamERRD436.slice(0,5),
+      col2:state.zamERRD436.slice(5),
+      col1Title:"FvD",
+      col2Title:"FvD",
+    }
+},
+
+     setting(state){
+		return {
+      "ЭСУ-436":state.getters.setting_436,
+      "ЭРРД-436":state.getters.setting_errd436,
+      "ЭСУ-222":state.getters.setting_222,        
+    }
+},
+  },
   mutations: {
 
   setTitle(state, item) {
@@ -50,11 +89,7 @@ export default {
     },
 
   },
-  getters: {
-    getTitle(state) {
-      return state.title
-    },
-  },
+
 
   actions: {
     async sendCoord({commit, state},coordinates){
