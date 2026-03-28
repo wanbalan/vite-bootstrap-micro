@@ -28,25 +28,19 @@
 </template>
 
 
-<script>
-  export default {
-  emits:["clickDev"],
-  props:["name","devNames"],
-  data() {
-    return {
-      items:[
+<script setup lang="ts">
+import { useStore } from 'vuex'
+const store = useStore()
+
+var items=[
       {id:1, name:"ЭСУ-222" },
       {id:2, name:"ЭСУ-436"},
-      {id:3, name:"ЭРРД-436"}],
-    }  
-  },
-  methods:{
-    classShow(item){
+      {id:3, name:"ЭРРД-436"}];
+
+function classShow(item){
       this.$emit('clickDev', item)
       this.$refs.btnShow.click()
       }
-    },
-   }
 </script>
 
 
