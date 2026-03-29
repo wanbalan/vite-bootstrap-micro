@@ -7,7 +7,6 @@
       <div class="container" >
         <div class="row ">
           <div class="col">
-            <h1><strong >Титул первой колонки</strong></h1>
             <dev-button ></dev-button >
           </div>
          </div>
@@ -20,9 +19,8 @@
 <script setup lang="ts">
 import NavBar from './components/NavBar.vue'
 import DevButton from './components/DevButton.vue'
-import Slots from './components/Slots.vue'
-import { reactive,ref, computed} from 'vue'
-import type {Ref} from "vue";
+// import Slots from './components/Slots.vue' //
+import {  computed} from 'vue'
 import { useStore } from 'vuex';
 const store = useStore()
 

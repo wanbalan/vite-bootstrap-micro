@@ -1,6 +1,8 @@
 export default {
   state: {
 
+    showed:[],
+    showed2:[],
     title: "ЭСУ-436",
     butColors:Array(10).fill("btn-success"),
 
@@ -39,6 +41,12 @@ export default {
 
   },
   getters: {
+    getShowed(state){
+      return state.showed
+    },
+    getShowed2(state){
+      return state.showed2
+    },
     getTitle(state) {
       return state.title
     },
@@ -46,8 +54,8 @@ export default {
   		return {
         col1:state.zamESU436.slice(0,4),
         col2:state.zamESU436.slice(4),
-        col1Title:"Nk",
-        col2Title:"Nv"
+        col1Title:"Nk, Nv",
+        col2Title:"Допы"
       }
     },
 
@@ -56,7 +64,7 @@ export default {
         col1:state.zam222_col1,
         col2:state.zam222_col2,
         col1Title:"Nnd, Nvd",
-        col2Title:"Виброподвеска",
+        col2Title:"Подвеска",
       }
     },
 
@@ -78,6 +86,16 @@ export default {
     },
   },
   mutations: {
+    setShowedByindex(state, index){
+      state.showed[index]=true
+    },
+    setShowed2Byindex(state, index){
+      state.showed2[index]=true
+    },
+    resetShowed(state){
+      state.showed=[]
+      state.showed2=[]
+    },
 
   setTitle(state, item) {
     state.title=item
@@ -91,19 +109,6 @@ export default {
 
 
   actions: {
-    async sendCoord({commit, state},coordinates){
-    const res= await fetch('http://localhost:8081/select', {
-        method: 'POST',
-        headers: {
-            'Content-type': 'application/json',
-            'Access-Control-Allow-Origin': '*'
-            },
-        body: JSON.stringify({vec: coordinates})
-        })
-        var users=await res.json()
-        console.log("Response =>>", users);
-        commit("set_peeople", users)
-        return state.peeople
-    }
-  },
+  }
 }
+
