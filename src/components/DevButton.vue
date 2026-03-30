@@ -1,7 +1,7 @@
 <template >
 <div class="row">
   <div class="col">
-  <h1 class="tit"><strong >{{ deviceSetting().col1Title}}</strong></h1>
+  <h1 ><strong >{{ deviceSetting().col1Title}}</strong></h1>
   <vibe-icon icon="plugin" class="fs-2 text-primary"></vibe-icon>
   <div class="row justify-content-center"
       v-for="(but, index) in deviceSetting().col1 "
@@ -20,8 +20,8 @@
   </div>
   </div>
   <div class="col">
-  <h1 class="tit"><strong>{{ deviceSetting().col2Title}}</strong></h1>
-  <vibe-icon icon="plugin" class="fs-2 text-success"></vibe-icon>
+  <h1 ><strong>{{ deviceSetting().col2Title}}</strong></h1>
+  <vibe-icon :class="store.getters.getTitle == 'ЭСУ-436' ? 'text-primary' : 'text-success'" icon="plugin" class="fs-2"></vibe-icon>
   <div class="row justify-content-center" 
       v-for="but, index in deviceSetting().col2"
       :key="index"
@@ -69,7 +69,7 @@ const { deviceSetting} = computed(() => ({
   .btn {
     width: 120px;
     margin: 5px;
-    height:86px;
+    height:87px;
         }
   h1 {
   padding-bottom: 0px !important; 

@@ -4,8 +4,6 @@ export default {
     showed:[],
     showed2:[],
     title: "ЭСУ-436",
-    butColors:Array(10).fill("btn-success"),
-
     zamERRD436:[{ gen1:{ ch1: { gz:"5500", U: "2" }, ch2:{ gz:  "", U:  ""} } },
       { gen1:{ ch1: { gz:"14000", U: "2" }, ch2:{ gz:  "", U:  ""} } },
       { gen1:{ ch1: { gz:"1500", U: "2" }, ch2:{ gz:  "", U:  ""} } },
@@ -101,10 +99,6 @@ export default {
     state.title=item
     },
 
-  updateColor(state, index){
-    console.log("updateColor")
-    state.butColors[index]="btn-danger"
-    },
   },
 
 

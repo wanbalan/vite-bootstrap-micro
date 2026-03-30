@@ -54,7 +54,7 @@ var devices={"ЭСУ-436":store.getters.setting_436,
 
 <style scoped>
       #offcanvasNavbar {
-        width : 10%;
+        width : 15%;
       }
    @media (max-width: 500.98px) {
       #offcanvasNavbar {
