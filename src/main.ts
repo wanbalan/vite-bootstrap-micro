@@ -8,7 +8,6 @@ import "../node_modules/bootstrap-icons/font/bootstrap-icons.min.css"
 
 import store from './store'
 
-
 createApp(App)
   .use(VibeUI)
   .use(store)

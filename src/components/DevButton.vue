@@ -21,7 +21,7 @@
   </div>
   <div class="col">
   <h1 ><strong>{{ deviceSetting().col2Title}}</strong></h1>
-  <vibe-icon :class="store.getters.getTitle == 'ЭСУ-436' ? 'text-primary' : 'text-success'" icon="plugin" class="fs-2"></vibe-icon>
+  <vibe-icon :class="store.getters.getTitle == 'ЭСУ-436' ? 'text-primary' : 'text-success'" :icon="store.getters.getTitle == 'ЭРРД-18-200-80' ? '' : 'plugin'" class="fs-2"></vibe-icon>
   <div class="row justify-content-center" 
       v-for="but, index in deviceSetting().col2"
       :key="index"

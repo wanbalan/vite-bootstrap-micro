@@ -24,6 +24,7 @@ import {  computed} from 'vue'
 import { useStore } from 'vuex';
 const store = useStore()
 
+
 var devices={"ЭСУ-436":store.getters.setting_436,
         "ЭРРД-436":store.getters.setting_errd436,
         "ЭСУ-222":store.getters.setting_222,
