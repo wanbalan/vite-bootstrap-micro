@@ -43,6 +43,7 @@ var clickOnDevice=(item)=>{
 var devices={"ЭСУ-436":store.getters.setting_436,
         "ЭРРД-436":store.getters.setting_errd436,
         "ЭСУ-222":store.getters.setting_222,
+        "ЭСУ-222-1":store.getters.setting_esu_222_1,
         "ЭРРД-18-200-80":store.getters.setting_errd_18_200_80,
       }
 // const { deviceSetting} = computed(() => ({ //
