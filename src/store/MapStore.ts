@@ -4,6 +4,7 @@ export default {
     showed:[],
     showed2:[],
     title: "ЭСУ-436",
+    with_one_collumn: ["ЭРРД-18-200-80","ЭСУ-222-1", ],
     zamERRD436:[
       { gen1:{ ch1: { gz:"5500", U: "2" }, ch2:{ gz:  "", U:  ""} } },
       { gen1:{ ch1: { gz:"14000", U: "2" }, ch2:{ gz:  "", U:  ""} } },
@@ -72,6 +73,10 @@ export default {
     //   ],
   },
   getters: {
+    list_one_collumn(state){
+       return state.with_one_collumn.includes(state.title)
+    },
+   
     getShowed(state){
       return state.showed
     },
@@ -186,10 +191,6 @@ export default {
       }
 }
 
-// Использование
-// sendPostRequest('https://api.example.com/register', userData);
-
-//   }
   }
 }
 

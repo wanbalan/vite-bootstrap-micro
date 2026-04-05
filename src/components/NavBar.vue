@@ -1,6 +1,6 @@
 <template>
 <div class="p-3 m-0 border-0 bd-example m-0 border-0">
-<nav class="navbar bg-body-tertiary fixed-top" data-bs-theme="dark">
+<nav class="shadow navbar bg-body-tertiary fixed-top" data-bs-theme="dark">
   <div class="container-fluid">
     <a type="button" class="navbar-brand" @click="clickOnDevice(store.getters.getTitle)"> {{ store.getters.getTitle}}</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" >
