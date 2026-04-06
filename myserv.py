@@ -69,7 +69,6 @@ async def all_shutdown():
 async def user(data):
     print(data["data"])
     x="sdc"
-    # return ("{'sdcsd': 'sdc'}")
     yield '"{'
     yield f"'id': {x}"
     yield '}"'
