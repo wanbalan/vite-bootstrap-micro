@@ -8,20 +8,16 @@
         <vibe-button variant="outline-secondary">Export</vibe-button>
     </vibe-button-group>
     <vibe-icon v-show="store.list_one_collumn" type="button" icon="plugin" class="fs-2 text-success"></vibe-icon>
-    <div class="row justify-content-center"
+    <div class="justify-content-center"
         v-for="(but, index) in deviceSetting().col1 "
         :key="index"
         >
-      <div>
-          <vibe-button-group class="me-2">
             <VibeButton 
               type="submit" form="form"
                 @click="clickOnButtonFromOneColumn(index, but, 1)">
                 <div v-html="text(but)"></div>
                 <vibe-icon type="button" v-show="store.showed2[index]" icon="check-circle-fill" class="me-2 "></vibe-icon>
             </VibeButton>
-          </vibe-button-group>
-      </div>
     </div>
   </div>
 
@@ -32,7 +28,7 @@
       <vibe-button variant="outline-secondary">Share</vibe-button>
       <vibe-button variant="outline-secondary">Export</vibe-button>
     </vibe-button-group>
-    <div class="row justify-content-center" 
+    <div class="justify-content-center" 
         v-for="but, index in deviceSetting().col2"
         :key="index"
         >

@@ -1,5 +1,5 @@
 <template>
-<div class="p-3 m-0 border-0 bd-example m-0 border-0">
+<div class="p-4 m-2 ">
 <nav class="shadow navbar bg-body-tertiary fixed-top" data-bs-theme="dark">
   <div class="container-fluid">
     <a type="button" class="navbar-brand" @click="clickOnDevice(store.title)"> {{ store.title}}</a>
@@ -9,7 +9,7 @@
     <div class="offcanvas offcanvas-end " tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel" >
       <div class="offcanvas-header">
         <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Агрегаты</h5><br />
-         <button ref="classShow" type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
       <div class="offcanvas-body">
         <ul class="navbar-nav justify-content-end flex-grow-1 pe-3"
