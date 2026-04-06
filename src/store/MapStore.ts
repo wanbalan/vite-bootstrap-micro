@@ -11,7 +11,7 @@ import {computed,ref }from 'vue'
       { gen1:{ ch1: { gz: "3450", U: "2" }, ch2:{ gz:  "14554", U:  "2"} } },
       { gen1:{ ch1: { gz: "3450", U: "2" }, ch2:{ gz:  "16064", U:  "2"} } },
       { gen1:{ ch1: { gz: "6000", U: "2" }, ch2:{ gz:  "7300", U:  "2"} } }],)
-  var  list_one_collumn = computed(() => with_one_collumn.includes(this.title))
+  var  list_one_collumn = computed(() => with_one_collumn.value.includes(title))
 
    
    var setting_errd436 = computed(() => {
@@ -25,11 +25,11 @@ import {computed,ref }from 'vue'
 
   var setting = computed(() => {
   		return {
-        "ЭСУ-436":this.setting_436,
-        "ЭРРД-436":this.setting_errd436,
-        "ЭСУ-222":this.setting_222,
-        "ЭРРД-18-200-80":this.setting_errd_18_200_80,
-        "ЭСУ-222-1":this.setting_esu_222_1,
+        "ЭСУ-436":setting_436.value,
+        "ЭРРД-436":setting_errd436.value,
+        "ЭСУ-222":setting_222.value,
+        "ЭРРД-18-200-80":setting_errd_18_200_80.value,
+        "ЭСУ-222-1":setting_esu_222_1.value,
       }
     })
   var setting_436 = computed(() => {
@@ -47,14 +47,14 @@ var   setting_222 = computed(() => {
   }})
 
 var setting_errd_18_200_80 = computed(() =>  {
-        return {col1:this.zamERRD_18_200_80_col1,
+        return {col1:zamERRD_18_200_80_col1.value,
         col2:{},
         col1Title:"Nnd, Nvd/Подвеска",
         col2Title:"",}
       })
 var setting_esu_222_1 = computed(() => {
   		return {
-        col1:this.zamESU_222_1,
+        col1:zamESU_222_1.value,
         col2:{},
         col1Title:"Nnd, Nvd/Подвеска",
         col2Title:"",

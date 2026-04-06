@@ -23,15 +23,15 @@ import DevButton from './components/DevButton.vue'
 import { useCounterStore } from './store/MapStore.ts'
 const store = useCounterStore()
 
+console.log("my store is ", store.title)
 
 var devices={"ЭСУ-436":store.setting_436,
         "ЭРРД-436":store.setting_errd436,
         "ЭСУ-222":store.setting_222,
       }
 const { deviceSetting} = computed(() => ({
-  deviceSetting: () => { return devices[store.getTitle]},
+  deviceSetting: () => { return devices[store.title]},
   })).value
-console.log(deviceSetting().col2[0])
 </script>
 
 <style>

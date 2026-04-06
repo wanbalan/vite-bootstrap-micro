@@ -18,7 +18,7 @@
               type="submit" form="form"
                 @click="clickOnButtonFromOneColumn(index, but, 1)">
                 <div v-html="text(but)"></div>
-                <vibe-icon type="button" v-show="store.getShowed2[index]" icon="check-circle-fill" class="me-2 "></vibe-icon>
+                <vibe-icon type="button" v-show="store.showed2[index]" icon="check-circle-fill" class="me-2 "></vibe-icon>
             </VibeButton>
           </vibe-button-group>
       </div>
@@ -27,7 +27,7 @@
 
   <div class="col">
     <h1 ><strong>{{ deviceSetting().col2Title}}</strong></h1>
-    <vibe-icon v-show="!store.list_one_collumn" type="button" :class="store.getTitle == 'ЭСУ-436' ? 'text-primary' : 'text-success'" icon="plugin" class="fs-2"></vibe-icon>
+    <vibe-icon v-show="!store.list_one_collumn" type="button" :class="store.title == 'ЭСУ-436' ? 'text-primary' : 'text-success'" icon="plugin" class="fs-2"></vibe-icon>
     <vibe-button-group size="sm" class="me-2">
       <vibe-button variant="outline-secondary">Share</vibe-button>
       <vibe-button variant="outline-secondary">Export</vibe-button>
@@ -39,9 +39,9 @@
       <div>
         <VibeButton 
           type="submit" form="form"
-            @click="store.commit('setShowedByindex', index)">
+            @click="store.showed[index]=true">
           <div v-html="text(but)"></div>
-          <vibe-icon type="button" v-show="store.getShowed[index]" icon="check-circle-fill" class="me-2"></vibe-icon>
+          <vibe-icon type="button" v-show="store.showed[index]" icon="check-circle-fill" class="me-2"></vibe-icon>
         </VibeButton >
       </div>
     </div>
@@ -61,11 +61,11 @@ const store = useCounterStore()
         "ЭРРД-18-200-80":store.setting_errd_18_200_80,
       }
 const { deviceSetting,} = computed(() => ({
-  deviceSetting: () => { return devices[store.getTitle]},
+  deviceSetting: () => { return devices[store.title]},
   })).value
 
   function text(but){
-      if (store.getTitle == 'ЭСУ-436' || store.getTitle == 'ЭСУ-222' ){
+      if (store.title == 'ЭСУ-436' || store.title == 'ЭСУ-222' ){
           return Object.keys(but).length===1 ? but.gen1.ch1.gz + " Гц <br>" + 
                   but.gen1.ch2.gz  + " Гц " : but.gen2.ch1.gz + " Гц <br>" + but.gen2.ch1.U + " mV" 
         }
@@ -74,15 +74,15 @@ const { deviceSetting,} = computed(() => ({
         }
     }
     function clickOnButtonFromOneColumn(index, but, _collumn){
-      store.commit('setShowed2Byindex', index)
-      if (store.getTitle == "ЭСУ-436"){
-        store.dispatch('sendPostRequest', `SOUR1:APPL:SQU ${but.gen1.ch1.gz}.0e+0,${but.gen1.ch1.U}\n;:SOUR2:APPL:SQU ${but.gen1.ch2.gz}.0e+0,${but.gen1.ch2.U}\n`)
+      store.showed2[index]=true
+      if (store.title == "ЭСУ-436"){
+        // store.dispatch('sendPostRequest', `SOUR1:APPL:SQU ${but.gen1.ch1.gz}.0e+0,${but.gen1.ch1.U}\n;:SOUR2:APPL:SQU ${but.gen1.ch2.gz}.0e+0,${but.gen1.ch2.U}\n`) //
       }
-      else {
-        store.dispatch('sendPostRequest', `SOUR1:APPL:SIN ${but.gen1.ch1.gz}.0e+0,${but.gen1.ch1.U}\n;:SOUR2:APPL:SIN ${but.gen1.ch2.gz}.0e+0,${but.gen1.ch2.U}\n`)
-        store.dispatch('sendPostRequest', `SOUR1:APPL:SIN ${but.gen2.ch1.gz}.0e+0,${but.gen2.ch1.U}mvrms\n;:SOUR2:APPL:SIN ${but.gen2.ch2.gz}.0e+0,${but.gen2.ch2.U}mvrms\n`)
+      // else { //
+        // store.dispatch('sendPostRequest', `SOUR1:APPL:SIN ${but.gen1.ch1.gz}.0e+0,${but.gen1.ch1.U}\n;:SOUR2:APPL:SIN ${but.gen1.ch2.gz}.0e+0,${but.gen1.ch2.U}\n`) //
+        // store.dispatch('sendPostRequest', `SOUR1:APPL:SIN ${but.gen2.ch1.gz}.0e+0,${but.gen2.ch1.U}mvrms\n;:SOUR2:APPL:SIN ${but.gen2.ch2.gz}.0e+0,${but.gen2.ch2.U}mvrms\n`) //
         
-      }
+      // } //
   }
   // .btn { //
     // width: 145px; //
