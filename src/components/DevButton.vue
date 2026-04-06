@@ -73,7 +73,7 @@ const { deviceSetting,} = computed(() => ({
         return but.gen1.ch1.gz + " Гц <br>" + but.gen1.ch2.gz  + " Гц "
         }
     }
-    function clickOnButtonFromOneColumn(index, but, _collumn){
+    function clickOnButtonFromOneColumn(index, _but, _collumn){
       store.showed2[index]=true
       if (store.title == "ЭСУ-436"){
         // store.dispatch('sendPostRequest', `SOUR1:APPL:SQU ${but.gen1.ch1.gz}.0e+0,${but.gen1.ch1.U}\n;:SOUR2:APPL:SQU ${but.gen1.ch2.gz}.0e+0,${but.gen1.ch2.U}\n`) //

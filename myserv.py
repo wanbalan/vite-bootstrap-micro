@@ -89,7 +89,7 @@ try:
     # app.add_resource(SetValue, '/set')
     # app = tinyweb.webserver()
     print("http://localhost:8080")
-    app.run(host='localhost', port=8080)
+    app.run(host='127.0.0.1', port=8080)
 except KeyboardInterrupt as e:
     print(' CTRL+C pressed - terminating...')
     app.shutdown()

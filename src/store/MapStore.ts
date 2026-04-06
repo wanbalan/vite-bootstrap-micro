@@ -11,7 +11,8 @@ import {computed,ref }from 'vue'
       { gen1:{ ch1: { gz: "3450", U: "2" }, ch2:{ gz:  "14554", U:  "2"} } },
       { gen1:{ ch1: { gz: "3450", U: "2" }, ch2:{ gz:  "16064", U:  "2"} } },
       { gen1:{ ch1: { gz: "6000", U: "2" }, ch2:{ gz:  "7300", U:  "2"} } }],)
-  var  list_one_collumn = computed(() => with_one_collumn.value.includes(title))
+
+  var  list_one_collumn = computed(() => with_one_collumn.value.includes(title.value))
 
    
    var setting_errd436 = computed(() => {
