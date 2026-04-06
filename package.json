@@ -12,9 +12,9 @@
     "@velkymx/vibeui": "^0.8.0",
     "bootstrap": "^5.3.8",
     "bootstrap-icons": "^1.13.1",
+    "pinia": "^3.0.4",
     "quill": "^2.0.3",
-    "vue": "^3.5.30",
-    "vuex": "^4.1.0"
+    "vue": "^3.5.30"
   },
   "devDependencies": {
     "@types/node": "^24.12.0",

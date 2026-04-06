@@ -17,20 +17,19 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import NavBar from './components/NavBar.vue'
 import DevButton from './components/DevButton.vue'
-// import Slots from './components/Slots.vue' //
-import {  computed} from 'vue'
-import { useStore } from 'vuex';
-const store = useStore()
+import { useCounterStore } from './store/MapStore.ts'
+const store = useCounterStore()
 
 
-var devices={"ЭСУ-436":store.getters.setting_436,
-        "ЭРРД-436":store.getters.setting_errd436,
-        "ЭСУ-222":store.getters.setting_222,
+var devices={"ЭСУ-436":store.setting_436,
+        "ЭРРД-436":store.setting_errd436,
+        "ЭСУ-222":store.setting_222,
       }
 const { deviceSetting} = computed(() => ({
-  deviceSetting: () => { return devices[store.getters.getTitle]},
+  deviceSetting: () => { return devices[store.getTitle]},
   })).value
 console.log(deviceSetting().col2[0])
 </script>

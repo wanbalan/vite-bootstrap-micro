@@ -2,7 +2,7 @@
 <div class="p-3 m-0 border-0 bd-example m-0 border-0">
 <nav class="shadow navbar bg-body-tertiary fixed-top" data-bs-theme="dark">
   <div class="container-fluid">
-    <a type="button" class="navbar-brand" @click="clickOnDevice(store.getters.getTitle)"> {{ store.getters.getTitle}}</a>
+    <a type="button" class="navbar-brand" @click="clickOnDevice(store.getTitle)"> {{ store.getTitle}}</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" >
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -28,8 +28,8 @@
 
 
 <script setup lang="ts">
-import { useStore } from 'vuex'
-const store = useStore()
+import { useCounterStore } from '../store/MapStore'
+const store = useCounterStore()
 // import {computed, }from 'vue' //
 
 var clickOnDevice=(item)=>{
@@ -40,14 +40,14 @@ var clickOnDevice=(item)=>{
     // inputEl.value.click(); //
     // console.log("sdcsdc", inputEl.value) //
   // }) //
-var devices={"ЭСУ-436":store.getters.setting_436,
-        "ЭРРД-436":store.getters.setting_errd436,
-        "ЭСУ-222":store.getters.setting_222,
-        "ЭСУ-222-1":store.getters.setting_esu_222_1,
-        "ЭРРД-18-200-80":store.getters.setting_errd_18_200_80,
+var devices={"ЭСУ-436":store.setting_436,
+        "ЭРРД-436":store.setting_errd436,
+        "ЭСУ-222":store.setting_222,
+        "ЭСУ-222-1":store.setting_esu_222_1,
+        "ЭРРД-18-200-80":store.setting_errd_18_200_80,
       }
 // const { deviceSetting} = computed(() => ({ //
-  // deviceSetting: () => { return devices[store.getters.getTitle]}, //
+  // deviceSetting: () => { return devices[store.getTitle]}, //
   // })).value //
 
 // console.log("sdcsdc", deviceSetting()) //
