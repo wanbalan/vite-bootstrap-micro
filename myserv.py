@@ -2,7 +2,10 @@ import tinyweb
 from random import randint
 # import network
 # from machine import Timer, Pin, freq, UART
-
+# 'SOUR1:OUTput on\r\n'
+# "SOUR1:APPL:SIN 3333.0e+0,2vpp;:SOUR2:APPL:SIN 122.0e+0,1vpp\r\n"
+# "SOUR1:APPL:SIN 3333,1vpp;:SOUR2:APPL:SIN 1033,1vpp\r\n"
+# uart.write('OUTput1 1;OUTput2 1\r\n')
 # freq(40_000_000)
 # tim0 = Timer(0)
 # tim0.init(period=5000, mode=Timer.ONE_SHOT, callback=lambda t:print(0))
@@ -10,7 +13,12 @@ from random import randint
 # tim1 = Timer(1)
 # tim1.init(period=2000, mode=Timer.PERIODIC, callback=lambda t:print(1))
 app = tinyweb.webserver()
-def networkUp():
+g1_output1=0
+g1_output2=0
+g2_output1=0
+g2_output2=0
+
+async def networkUp():
     ap = network.WLAN(network.AP_IF)
     ap.active(True)
     ap.config(essid='sudo_su', authmode=network.AUTH_WPA_WPA2_PSK, password='1234~8765', txpower=2, pm=network.WLAN.PM_POWERSAVE)
@@ -79,6 +87,7 @@ async def battery_procentage(data):
     yield '"battery": '+x
     # yield f"'battery': {x}"
     yield '}'
+
 
 @app.resource('/generator-one/command', method='POST')
 async def generator_one(data):

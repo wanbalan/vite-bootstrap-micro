@@ -5,14 +5,14 @@
     <h1 ><strong class="text-muted">{{ deviceSetting().col1Title}}</strong></h1>
           <vibe-icon type="button" icon="plugin" class="fs-2 text-primary p-1"></vibe-icon>
           <vibe-button-group size="sm" class="me-2 pb-2">
-              <vibe-button variant="outline-secondary">CH1</vibe-button>
-              <vibe-button variant="outline-secondary">CH2</vibe-button>
+              <vibe-button @click="turn_one_output('GEN1_CH1')" variant="outline-secondary">CH1</vibe-button>
+              <vibe-button @click="turn_one_output('GEN1_CH2')" variant="outline-secondary">CH2</vibe-button>
           </vibe-button-group>
-          <div v-show="store.list_one_collumn" class="col">
-            <vibe-icon v-show="store.list_one_collumn" type="button" icon="plugin" class="fs-2 text-success p-1"></vibe-icon>
+          <div v-show="list_one_collumn" class="col">
+            <vibe-icon v-show="list_one_collumn" type="button" icon="plugin" class="fs-2 text-success p-1"></vibe-icon>
             <vibe-button-group size="sm" class="me-2 pb-2">
-                <vibe-button variant="outline-secondary">CH1</vibe-button>
-                <vibe-button variant="outline-secondary">CH2</vibe-button>
+              <vibe-button @click="turn_one_output('GEN2_CH1')" variant="outline-secondary">CH1</vibe-button>
+              <vibe-button @click="turn_one_output('GEN2_CH2')" variant="outline-secondary">CH2</vibe-button>
             </vibe-button-group>
           </div>
 
@@ -80,14 +80,18 @@ const { deviceSetting,} = computed(() => ({
     function clickOnButtonFromOneColumn(index, but, _collumn){
       store.showed2[index]=true
       if (store.title == "ЭСУ-436"){
-        store.sendPostRequest(`SOUR1:APPL:SQU ${but.gen1.ch1.gz}.0e+0,${but.gen1.ch1.U}\n;:SOUR2:APPL:SQU ${but.gen1.ch2.gz}.0e+0,${but.gen1.ch2.U}\n`)
+        store.sendPostRequest(`SOUR1:APPL:SQU ${but.gen1.ch1.gz},${but.gen1.ch1.U};:SOUR2:APPL:SQU ${but.gen1.ch2.gz},${but.gen1.ch2.U}\r\n`, "generator-one")
       }
       else {
-        store.sendPostRequest(`SOUR1:APPL:SIN ${but.gen1.ch1.gz}.0e+0,${but.gen1.ch1.U}\n;:SOUR2:APPL:SIN ${but.gen1.ch2.gz}.0e+0,${but.gen1.ch2.U}\n`)
-        store.sendPostRequest(`SOUR1:APPL:SIN ${but.gen2.ch1.gz}.0e+0,${but.gen2.ch1.U}mvrms\n;:SOUR2:APPL:SIN ${but.gen2.ch2.gz}.0e+0,${but.gen2.ch2.U}mvrms\n`)
+        store.sendPostRequest(`SOUR1:APPL:SIN ${but.gen1.ch1.gz},${but.gen1.ch1.U};:SOUR2:APPL:SIN ${but.gen1.ch2.gz},${but.gen1.ch2.U}\r\n`, "generator-one")
+        store.sendPostRequest(`SOUR1:APPL:SIN ${but.gen2.ch1.gz},${but.gen2.ch1.U}mvrms;:SOUR2:APPL:SIN ${but.gen2.ch2.gz},${but.gen2.ch2.U}mvrms\r\n`, "generator-two")
         
       }
   }
+  function turn_one_output(gen_and_chenal, generator){
+    var command=store.get_command(gen_and_chenal)
+    store.sendPostRequest(command, "generator-two")
+    }
   // .btn { //
     // width: 145px; //
     // margin: 5px; //

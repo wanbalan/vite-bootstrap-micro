@@ -1,6 +1,11 @@
 import { defineStore } from 'pinia'
 import {computed,ref }from 'vue' 
 	export const useCounterStore = defineStore('counter', () => {
+  var g1_output1=ref(0)
+  var g1_output2=ref(0)
+  var g2_output1=ref(0)
+  var g2_output2=ref(0)
+
   var battery_icon=ref({"icon": "battery-full","color": "text-success"})
 	var zamESU436 = ref([
       { gen1:{ ch1: { gz:"3450", U: "2" }, ch2:{ gz:  "2000", U:  "2"} } },
@@ -106,9 +111,29 @@ var setting_esu_222_1 = computed(() => {
       { gen1:{ ch1: { gz: "4000", U: "2" }, ch2:{ gz:  "1200", U:  "2"} } ,  gen2:{ ch1: { gz: "350", U: "56.7" }, ch2:{ gz:  "350", U:  "227.8"} } },
       ],)
 
-    async function sendPostRequest(data) {
+  function get_command(gen_and_chenal){
+      var command=""
+     if (gen_and_chenal == "GEN1_CH1"){
+        this.g1_output1.value=( ~ this.g1_output1 | 1)
+        command=`OUTput1 ${this.g1_output1}\r\n`
+    }   
+     else if (gen_and_chenal == "GEN1_CH2"){
+        this.g1_output2.value=( ~ this.g1_output2 | 1)
+        command=`OUTput2 ${this.g1_output2}\r\n`
+    }   
+     else if (gen_and_chenal == "GEN1_CH1_CH2"){
+        this.g1_output1.value=( ~ this.g1_output1 | 1)
+        this.g1_output2.value=( ~ this.g1_output2 | 1)
+        command=`OUTput1 ${this.g1_output1};:OUTput2 ${this.g1_output2}\r\n`
+    }   
+    else {
+      console.log("Произошла какая-то ошибка!")
+    }
+    return command
+  }
+    async function sendPostRequest(data, generator) {
       console.log("data for send: ", data)
-      var url="http://127.0.0.1:8080/generator-one/command"
+      var url=`http://127.0.0.1:8080/${generator}/command`
       var bigdata=JSON.stringify({"command": data})
       console.log("bigdata for send: ", bigdata)
 
@@ -143,9 +168,6 @@ var setting_esu_222_1 = computed(() => {
       })
       .then(data => {
         console.log('data :', data, typeof(data));
-        // console.log('data :', data["battery"], typeof(data));
-        // var procentage=JSON.parse(data)
-        // console.log('% :', procentage);
         if (data["battery"] <= 35 ) {
           console.log('low:');
           battery_icon.value={"icon": "battery-low","color": "text-danger"}
@@ -158,6 +180,23 @@ var setting_esu_222_1 = computed(() => {
           console.log('full:');
           battery_icon.value={"icon": "battery-full","color": "text-success"}
         }
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+
+    }
+
+    async function battery_info(){
+      fetch('http://127.0.0.1:8080/info')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+
       })
       .catch(error => {
         console.error('Error fetching data:', error);
