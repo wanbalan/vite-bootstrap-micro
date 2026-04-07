@@ -2,6 +2,7 @@
 <div class="p-4 m-2 ">
 <nav class="shadow navbar bg-body-tertiary fixed-top" data-bs-theme="dark">
   <div class="container-fluid">
+    <vibe-icon type="button" @click="store.battery_info()" :icon="store.battery_icon['icon']" :class="store.battery_icon['color']" class="fs-2 p-1"></vibe-icon>
     <a type="button" class="navbar-brand" @click="clickOnDevice(store.title)"> {{ store.title}}</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation" >
       <span class="navbar-toggler-icon"></span>

@@ -1,6 +1,7 @@
 import tinyweb
+from random import randint
 # import network
-# from machine import Timer, Pin, freq
+# from machine import Timer, Pin, freq, UART
 
 # freq(40_000_000)
 # tim0 = Timer(0)
@@ -8,6 +9,7 @@ import tinyweb
 
 # tim1 = Timer(1)
 # tim1.init(period=2000, mode=Timer.PERIODIC, callback=lambda t:print(1))
+app = tinyweb.webserver()
 def networkUp():
     ap = network.WLAN(network.AP_IF)
     ap.active(True)
@@ -17,7 +19,6 @@ def networkUp():
 
 # networkUp()
 # Create web server application
-app = tinyweb.webserver()
 
 def get_content_type(file_path):
     ext = file_path.split('.')[-1].lower()
@@ -65,29 +66,46 @@ async def files_js(req, resp, fn):
 async def all_shutdown():
     await asyncio.sleep_ms(100)
 
-@app.resource('/set', method='POST')
-async def user(data):
-    print(data["data"])
+async def send_command(command):
+    uart.write(command)
+
+@app.resource('/info', method='GET')
+async def battery_procentage(data):
+    # uart.init()
+    # send_command(data["command"])
+    x=str(randint(0, 100))
+    # return {'a': 1}
+    yield '{'
+    yield '"battery": '+x
+    # yield f"'battery': {x}"
+    yield '}'
+
+@app.resource('/generator-one/command', method='POST')
+async def generator_one(data):
+    # uart.init()
+    # send_command(data["command"])
+    print('generator-one',data["command"])
     x="sdc"
     yield '"{'
-    yield f"'id': {x}"
+    yield f"'status': {x}"
     yield '}"'
 
-class SetValue():
-
-    def post(self, data):
-        """Add customer"""
-        print("data from set: ", data)
-        print("after")
-        # Return message AND set HTTP response code to "201 Created"
-        return {"message": "created"}, 200
+@app.resource('/generator-two/command', method='POST')
+async def generator_two(data):
+    # uart.init()
+    # send_command(data["command"])
+    print('generator-two',data["command"])
+    x="sdc"
+    yield '"{'
+    yield f"'status': {x}"
+    yield '}"'
 
 
 # if __name__ == '__main__':
 try:
     # app.add_resource(SetValue, '/set')
-    # app = tinyweb.webserver()
-    print("http://localhost:8080")
+    # uart=UART()
+    print("http://127.0.0.1:8080")
     app.run(host='127.0.0.1', port=8080)
 except KeyboardInterrupt as e:
     print(' CTRL+C pressed - terminating...')

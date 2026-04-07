@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import {computed,ref }from 'vue' 
 	export const useCounterStore = defineStore('counter', () => {
-
+  var battery_icon=ref({"icon": "battery-full","color": "text-success"})
 	var zamESU436 = ref([
       { gen1:{ ch1: { gz:"3450", U: "2" }, ch2:{ gz:  "2000", U:  "2"} } },
       { gen1:{ ch1: { gz:"3450", U: "2" }, ch2:{ gz:  "732", U:  "2"} } },
@@ -106,10 +106,11 @@ var setting_esu_222_1 = computed(() => {
       { gen1:{ ch1: { gz: "4000", U: "2" }, ch2:{ gz:  "1200", U:  "2"} } ,  gen2:{ ch1: { gz: "350", U: "56.7" }, ch2:{ gz:  "350", U:  "227.8"} } },
       ],)
 
-    async function sendPostRequest(_this, data) {
+    async function sendPostRequest(data) {
       console.log("data for send: ", data)
-      var url="http://127.0.0.1:8080/set"
-      var bigdata=JSON.stringify({"data": data})
+      var url="http://127.0.0.1:8080/generator-one/command"
+      var bigdata=JSON.stringify({"command": data})
+      console.log("bigdata for send: ", bigdata)
 
       try {
         const response = await fetch(url, {
@@ -118,7 +119,7 @@ var setting_esu_222_1 = computed(() => {
             'Content-Type': 'application/json'
           },
           body: bigdata,
-          mode: 'same-origin'
+          // mode: 'same-origin'
         });
 
         if (!response.ok) {
@@ -132,6 +133,37 @@ var setting_esu_222_1 = computed(() => {
         console.error('Ошибка при отправке запроса:', error);
       }
 }
+    async function battery_info(){
+      fetch('http://127.0.0.1:8080/info')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log('data :', data, typeof(data));
+        // console.log('data :', data["battery"], typeof(data));
+        // var procentage=JSON.parse(data)
+        // console.log('% :', procentage);
+        if (data["battery"] <= 35 ) {
+          console.log('low:');
+          battery_icon.value={"icon": "battery-low","color": "text-danger"}
+        }
+        else if (data["battery"] <= 70 && data["battery"] >= 35 ) {
+          console.log('half:');
+          battery_icon.value={"icon": "battery-half","color": "text-warning"}
+        }
+        else {
+          console.log('full:');
+          battery_icon.value={"icon": "battery-full","color": "text-success"}
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
 
-  return { sendPostRequest,showed,showed2,title,with_one_collumn,zamERRD436,zamESU436,zam222_col2,zam222_col1,zamESU_222_1, list_one_collumn ,setting_436 ,setting_222 ,setting_errd_18_200_80 , setting_esu_222_1 ,setting_errd436 ,setting , }
+    }
+
+  return {battery_icon, battery_info,sendPostRequest,showed,showed2,title,with_one_collumn,zamERRD436,zamESU436,zam222_col2,zam222_col1,zamESU_222_1, list_one_collumn ,setting_436 ,setting_222 ,setting_errd_18_200_80 , setting_esu_222_1 ,setting_errd436 ,setting , }
 })

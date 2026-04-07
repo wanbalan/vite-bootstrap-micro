@@ -1,47 +1,53 @@
 <template >
 <div class="row">
   <div class="col">
-    <h1 ><strong >{{ deviceSetting().col1Title}}</strong></h1>
-    <vibe-icon type="button" icon="plugin" class="fs-2 text-primary"></vibe-icon>
-    <vibe-button-group size="sm" class="me-2">
-        <vibe-button variant="outline-secondary">Share</vibe-button>
-        <vibe-button variant="outline-secondary">Export</vibe-button>
-    </vibe-button-group>
-    <vibe-icon v-show="store.list_one_collumn" type="button" icon="plugin" class="fs-2 text-success"></vibe-icon>
-    <div class="container p-1 justify-content-center "
-        v-for="(but, index) in deviceSetting().col1 "
-        :key="index"
-        >
-            <VibeButton 
-              class="col-8 col-sm-3  "
-              type="submit" form="form"
-                @click="clickOnButtonFromOneColumn(index, but, 1)">
-                <div v-html="text(but)"></div>
-                <vibe-icon type="button" v-show="store.showed2[index]" icon="check-circle-fill" class="me-2 "></vibe-icon>
-            </VibeButton>
-    </div>
+
+    <h1 ><strong class="text-muted">{{ deviceSetting().col1Title}}</strong></h1>
+          <vibe-icon type="button" icon="plugin" class="fs-2 text-primary p-1"></vibe-icon>
+          <vibe-button-group size="sm" class="me-2 pb-2">
+              <vibe-button variant="outline-secondary">CH1</vibe-button>
+              <vibe-button variant="outline-secondary">CH2</vibe-button>
+          </vibe-button-group>
+          <div v-show="store.list_one_collumn" class="col">
+            <vibe-icon v-show="store.list_one_collumn" type="button" icon="plugin" class="fs-2 text-success p-1"></vibe-icon>
+            <vibe-button-group size="sm" class="me-2 pb-2">
+                <vibe-button variant="outline-secondary">CH1</vibe-button>
+                <vibe-button variant="outline-secondary">CH2</vibe-button>
+            </vibe-button-group>
+          </div>
+
+      <div class="container p-1 justify-content-center "
+          v-for="(but, index) in deviceSetting().col1 "
+          :key="index">
+        <VibeButton 
+          class="col-8 col-sm-3 "
+          type="submit" form="form"
+            @click="clickOnButtonFromOneColumn(index, but, 1)">
+            <div v-html="text(but)"></div>
+            <vibe-icon type="button" v-show="store.showed2[index]" icon="check-circle-fill" class="me-2 "></vibe-icon>
+        </VibeButton>
+      </div>
+
   </div>
 
-  <div class="col">
-    <h1 ><strong>{{ deviceSetting().col2Title}}</strong></h1>
-    <vibe-icon v-show="!store.list_one_collumn" type="button" :class="store.title == 'ЭСУ-436' ? 'text-primary' : 'text-success'" icon="plugin" class="fs-2"></vibe-icon>
-    <vibe-button-group size="sm" class="me-2">
-      <vibe-button variant="outline-secondary">Share</vibe-button>
-      <vibe-button variant="outline-secondary">Export</vibe-button>
+  <div class="col" v-show="!store.list_one_collumn" >
+    <h1 ><strong class="text-muted">{{ deviceSetting().col2Title}}</strong></h1>
+    <vibe-icon type="button" :class="store.title == 'ЭСУ-436' ? 'text-primary' : 'text-success'" icon="plugin" class="fs-2 p-1"></vibe-icon>
+    <vibe-button-group size="sm" class="me-2 pb-2">
+        <vibe-button variant="outline-secondary">CH1</vibe-button>
+        <vibe-button variant="outline-secondary">CH2</vibe-button>
     </vibe-button-group>
-    <div class="row justify-content-center" 
+    <div class="container p-1 justify-content-center" 
         v-for="but, index in deviceSetting().col2"
         :key="index"
         >
-      <div>
         <VibeButton 
-          class="col col-sm-2"
+          class="col-8 col-sm-3 "
           type="submit" form="form"
             @click="store.showed[index]=true">
           <div v-html="text(but)"></div>
           <vibe-icon type="button" v-show="store.showed[index]" icon="check-circle-fill" class="me-2"></vibe-icon>
         </VibeButton >
-      </div>
     </div>
   </div>
 </div>
@@ -71,16 +77,16 @@ const { deviceSetting,} = computed(() => ({
         return but.gen1.ch1.gz + " Гц <br>" + but.gen1.ch2.gz  + " Гц "
         }
     }
-    function clickOnButtonFromOneColumn(index, _but, _collumn){
+    function clickOnButtonFromOneColumn(index, but, _collumn){
       store.showed2[index]=true
       if (store.title == "ЭСУ-436"){
-        // store.dispatch('sendPostRequest', `SOUR1:APPL:SQU ${but.gen1.ch1.gz}.0e+0,${but.gen1.ch1.U}\n;:SOUR2:APPL:SQU ${but.gen1.ch2.gz}.0e+0,${but.gen1.ch2.U}\n`) //
+        store.sendPostRequest(`SOUR1:APPL:SQU ${but.gen1.ch1.gz}.0e+0,${but.gen1.ch1.U}\n;:SOUR2:APPL:SQU ${but.gen1.ch2.gz}.0e+0,${but.gen1.ch2.U}\n`)
       }
-      // else { //
-        // store.dispatch('sendPostRequest', `SOUR1:APPL:SIN ${but.gen1.ch1.gz}.0e+0,${but.gen1.ch1.U}\n;:SOUR2:APPL:SIN ${but.gen1.ch2.gz}.0e+0,${but.gen1.ch2.U}\n`) //
-        // store.dispatch('sendPostRequest', `SOUR1:APPL:SIN ${but.gen2.ch1.gz}.0e+0,${but.gen2.ch1.U}mvrms\n;:SOUR2:APPL:SIN ${but.gen2.ch2.gz}.0e+0,${but.gen2.ch2.U}mvrms\n`) //
+      else {
+        store.sendPostRequest(`SOUR1:APPL:SIN ${but.gen1.ch1.gz}.0e+0,${but.gen1.ch1.U}\n;:SOUR2:APPL:SIN ${but.gen1.ch2.gz}.0e+0,${but.gen1.ch2.U}\n`)
+        store.sendPostRequest(`SOUR1:APPL:SIN ${but.gen2.ch1.gz}.0e+0,${but.gen2.ch1.U}mvrms\n;:SOUR2:APPL:SIN ${but.gen2.ch2.gz}.0e+0,${but.gen2.ch2.U}mvrms\n`)
         
-      // } //
+      }
   }
   // .btn { //
     // width: 145px; //
