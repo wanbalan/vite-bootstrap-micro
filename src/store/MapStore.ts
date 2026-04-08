@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import {computed,ref }from 'vue' 
 	export const useCounterStore = defineStore('counter', () => {
+	battery_info()
   var g1_output1=ref(0)
   var g1_output2=ref(0)
   var g2_output1=ref(0)
@@ -111,19 +112,19 @@ var setting_esu_222_1 = computed(() => {
       { gen1:{ ch1: { gz: "4000", U: "2" }, ch2:{ gz:  "1200", U:  "2"} } ,  gen2:{ ch1: { gz: "350", U: "56.7" }, ch2:{ gz:  "350", U:  "227.8"} } },
       ],)
 
-  function get_command(gen_and_chenal){
-      var command=""
-     if (gen_and_chenal == "GEN1_CH1"){
-        this.g1_output1.value=( ~ this.g1_output1 | 1)
+  function get_command_g1(chenal){
+     var command=""
+     if (chenal == "CH1"){
+        this.g1_output1=Number(!this.g1_output1)
         command=`OUTput1 ${this.g1_output1}\r\n`
     }   
-     else if (gen_and_chenal == "GEN1_CH2"){
-        this.g1_output2.value=( ~ this.g1_output2 | 1)
+     else if (chenal == "CH2"){
+        this.g1_output2=Number(!this.g1_output2 )
         command=`OUTput2 ${this.g1_output2}\r\n`
     }   
-     else if (gen_and_chenal == "GEN1_CH1_CH2"){
-        this.g1_output1.value=( ~ this.g1_output1 | 1)
-        this.g1_output2.value=( ~ this.g1_output2 | 1)
+     else if (chenal == "CH1_CH2"){
+        this.g1_output1=Number(!this.g1_output1 )
+        this.g1_output2=Number(!this.g1_output2 )
         command=`OUTput1 ${this.g1_output1};:OUTput2 ${this.g1_output2}\r\n`
     }   
     else {
@@ -131,11 +132,32 @@ var setting_esu_222_1 = computed(() => {
     }
     return command
   }
+
+  function get_command_g2(chenal){
+     var command=""
+     if (chenal == "CH1"){
+        this.g2_output1=Number(!this.g2_output1)
+        command=`OUTput1 ${this.g2_output1}\r\n`
+    }   
+     else if (chenal == "CH2"){
+        this.g2_output2=Number(!this.g2_output2 )
+        command=`OUTput2 ${this.g2_output2}\r\n`
+    }   
+     else if (chenal == "CH1_CH2"){
+        this.g2_output1=Number(!this.g2_output1 )
+        this.g2_output2=Number(!this.g2_output2 )
+        command=`OUTput1 ${this.g2_output1};:OUTput2 ${this.g2_output2}\r\n`
+    }   
+    else {
+      console.log("Произошла какая-то ошибка!")
+    }
+    return command
+  }
+
     async function sendPostRequest(data, generator) {
-      console.log("data for send: ", data)
+      console.log("data for send: ", data, "generator:->", generator)
       var url=`http://127.0.0.1:8080/${generator}/command`
       var bigdata=JSON.stringify({"command": data})
-      console.log("bigdata for send: ", bigdata)
 
       try {
         const response = await fetch(url, {
@@ -158,6 +180,12 @@ var setting_esu_222_1 = computed(() => {
         console.error('Ошибка при отправке запроса:', error);
       }
 }
+    setInterval(async () => {
+      console.log('set interval');
+      battery_info()
+
+    }, 300000); // Выполняется каждую секунду
+
     async function battery_info(){
       fetch('http://127.0.0.1:8080/info')
       .then(response => {
@@ -187,22 +215,5 @@ var setting_esu_222_1 = computed(() => {
 
     }
 
-    async function battery_info(){
-      fetch('http://127.0.0.1:8080/info')
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then(data => {
-
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
-
-    }
-
-  return {battery_icon, battery_info,sendPostRequest,showed,showed2,title,with_one_collumn,zamERRD436,zamESU436,zam222_col2,zam222_col1,zamESU_222_1, list_one_collumn ,setting_436 ,setting_222 ,setting_errd_18_200_80 , setting_esu_222_1 ,setting_errd436 ,setting , }
+  return {get_command_g1,get_command_g2,battery_icon, battery_info,sendPostRequest,showed,showed2,title,with_one_collumn,zamERRD436,zamESU436,zam222_col2,zam222_col1,zamESU_222_1, list_one_collumn ,setting_436 ,setting_222 ,setting_errd_18_200_80 , setting_esu_222_1 ,setting_errd436 ,setting , }
 })
