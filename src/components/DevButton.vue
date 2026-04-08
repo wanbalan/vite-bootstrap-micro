@@ -32,7 +32,7 @@
 
   <div class="col" v-show="!store.list_one_collumn" >
     <h1 ><strong class="text-muted">{{ deviceSetting().col2Title}}</strong></h1>
-    <vibe-icon @click="turn_one_output('CH1_CH2','generator-two')" type="button" :class="store.title == 'ЭСУ-436' ? 'text-primary' : 'text-success'" icon="plugin" class="fs-2 p-1"></vibe-icon>
+    <vibe-icon @click="turn_one_output('CH1_CH2','generator-two')" type="button" :class="with_one_gen.includes(store.title) ? 'text-primary' : 'text-success'" icon="plugin" class="fs-2 p-1"></vibe-icon>
     <vibe-button-group size="sm" class="me-2 pb-2">
       <vibe-button @click="turn_one_output('CH1','generator-two')" variant="outline-secondary">CH1</vibe-button>
       <vibe-button @click="turn_one_output('CH2','generator-two')" variant="outline-secondary">CH2</vibe-button>
@@ -57,10 +57,12 @@
 import {computed,}from 'vue'
 import { useCounterStore } from '../store/MapStore'
 const store = useCounterStore()
+var with_one_gen=["ЭСУ-436","ЭРРД-436"]
   var devices={
         "ЭСУ-436":store.setting_436,
         "ЭРРД-436":store.setting_errd436,
         "ЭСУ-222":store.setting_222,
+        "ЭРРД-1700":store.setting_1700,
         "ЭСУ-222-1":store.setting_esu_222_1,
         "ЭРРД-18-200-80":store.setting_errd_18_200_80,
       }
@@ -70,9 +72,14 @@ const { deviceSetting,} = computed(() => ({
 
   function text(but){
       if (store.title == 'ЭСУ-436' || store.title == 'ЭСУ-222' ){
+          // console.log("store.setting_1700") //
+
           return Object.keys(but).length===1 ? but.gen1.ch1.gz + " Гц <br>" + 
                   but.gen1.ch2.gz  + " Гц " : but.gen2.ch1.gz + " Гц <br>" + but.gen2.ch1.U + " mV" 
         }
+      else if ( store.title == 'ЭРРД-1700' ) {
+        return but.gen1.ch1.gz + " Гц <br>" + but.gen1.ch1.U + " В"
+      }
       else {
         return but.gen1.ch1.gz + " Гц <br>" + but.gen1.ch2.gz  + " Гц "
         }
@@ -97,8 +104,8 @@ const { deviceSetting,} = computed(() => ({
         store.sendPostRequest(`SOUR1:APPL:SQU ${but.gen1.ch1.gz},${but.gen1.ch1.U};:SOUR2:APPL:SQU ${but.gen1.ch2.gz},${but.gen1.ch2.U}\r\n`, "generator-one")
       }
       else {
-    store.sendPostRequest(`SOUR1:APPL:SIN ${but.gen1.ch1.gz},${but.gen1.ch1.U};:SOUR2:APPL:SIN ${but.gen1.ch2.gz},${but.gen1.ch2.U}\r\n`, "generator-one")
-    store.sendPostRequest(`SOUR1:APPL:SIN ${but.gen2.ch1.gz},${but.gen2.ch1.U}mvrms;:SOUR2:APPL:SIN ${but.gen2.ch2.gz},${but.gen2.ch2.U}mvrms\r\n`, "generator-two")
+        store.sendPostRequest(`SOUR1:APPL:SIN ${but.gen1.ch1.gz},${but.gen1.ch1.U};:SOUR2:APPL:SIN ${but.gen1.ch2.gz},${but.gen1.ch2.U}\r\n`, "generator-one")
+        store.sendPostRequest(`SOUR1:APPL:SIN ${but.gen2.ch1.gz},${but.gen2.ch1.U}mvrms;:SOUR2:APPL:SIN ${but.gen2.ch2.gz},${but.gen2.ch2.U}mvrms\r\n`, "generator-two")
         
       }
   }

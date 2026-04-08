@@ -1,7 +1,8 @@
 import tinyweb
 from random import randint
 # import network
-# from machine import Timer, Pin, freq, UART
+# from machine import Timer, Pin, freq, UART, ADC
+    # adc=ADC(Pin(14),atten=ADC.ATTN_11DB)
 # 'SOUR1:OUTput on\r\n'
 # "SOUR1:APPL:SIN 3333.0e+0,2vpp;:SOUR2:APPL:SIN 122.0e+0,1vpp\r\n"
 # "SOUR1:APPL:SIN 3333,1vpp;:SOUR2:APPL:SIN 1033,1vpp\r\n"
@@ -79,12 +80,19 @@ async def send_command(command):
 
 @app.resource('/info', method='GET')
 async def battery_procentage(data):
-    # uart.init()
-    # send_command(data["command"])
-    x=str(randint(0, 100))
+    # volt=adc.read_uv()/1000_000 # 2.597
+    # if volt >= 2.596:
+    #     procentage="100"
+    # elif volt < 2.596 and volt > 2.590:
+    #     procentage="50"
+    # else:
+    #     procentage="0"
+    procentage="100"
+        
+    # x=str(randint(0, 100))
     # return {'a': 1}
     yield '{'
-    yield '"battery": '+x
+    yield '"battery": ' + procentage
     # yield f"'battery': {x}"
     yield '}'
 

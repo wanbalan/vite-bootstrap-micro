@@ -23,8 +23,8 @@ import {computed,ref }from 'vue'
    
    var setting_errd436 = computed(() => {
   		return {
-        col1:zamERRD436.value.slice(0,5),
-        col2:zamERRD436.value.slice(5),
+        col1:zamERRD436.value.slice(0,4),
+        col2:zamERRD436.value.slice(4),
         col1Title:"FvD",
         col2Title:"FvD",
       }
@@ -35,6 +35,7 @@ import {computed,ref }from 'vue'
         "ЭСУ-436":setting_436.value,
         "ЭРРД-436":setting_errd436.value,
         "ЭСУ-222":setting_222.value,
+        "ЭРРД-1700":setting_1700.value,
         "ЭРРД-18-200-80":setting_errd_18_200_80.value,
         "ЭСУ-222-1":setting_esu_222_1.value,
       }
@@ -44,13 +45,20 @@ import {computed,ref }from 'vue'
             col2:zamESU436.value.slice(4),
             col1Title:"Nk, Nv",
             col2Title:"Допы"
-    } })
+    }})
 
-var   setting_222 = computed(() => {
+var setting_222 = computed(() => {
   return {col1:zam222_col1.value,
           col2:zam222_col2.value,
           col1Title:"Nnd, Nvd",
           col2Title:"Подвеска",
+  }})
+
+var setting_1700 = computed(() => {
+  return {col1:zamERRD1700_col1.value,
+          col2:zamERRD1700_col2.value,
+          col1Title:"Vtk",
+          col2Title:"Vct",
   }})
 
 var setting_errd_18_200_80 = computed(() =>  {
@@ -71,16 +79,21 @@ var setting_esu_222_1 = computed(() => {
 	var title = ref( "ЭСУ-436")
 	var with_one_collumn = ref( ["ЭРРД-18-200-80","ЭСУ-222-1", ])
 	var zamERRD436 = ref([
-      { gen1:{ ch1: { gz:"5500", U: "2" }, ch2:{ gz:  "", U:  ""} } },
-      { gen1:{ ch1: { gz:"14000", U: "2" }, ch2:{ gz:  "", U:  ""} } },
-      { gen1:{ ch1: { gz:"1500", U: "2" }, ch2:{ gz:  "", U:  ""} } },
-      { gen1:{ ch1: { gz:"2100", U: "2" }, ch2:{ gz:  "", U:  ""} } },
-      { gen1:{ ch1: { gz:"7180", U: "2" }, ch2:{ gz:  "", U:  ""} } },
-      { gen1:{ ch1: { gz:"6000", U: "2" }, ch2:{ gz:  "", U:  ""} } },
-      { gen1:{ ch1: { gz:"2410", U: "2" }, ch2:{ gz:  "", U:  ""} } },
-      { gen1:{ ch1: { gz:"2405", U: "2" }, ch2:{ gz:  "", U:  ""} } },
-      { gen1:{ ch1: { gz:"4500", U: "2" }, ch2:{ gz:  "", U:  ""} } },
-      { gen1:{ ch1: { gz:"2800", U: "2" }, ch2:{ gz:  "", U:  ""} } }],)
+      { gen1:{ ch1: { gz:"5500", U: "2" }, ch2:{ gz:  "14000", U: "2" } } },
+      { gen1:{ ch1: { gz:"1500", U: "2" }, ch2:{ gz:  "2100", U: "2" } } },
+      { gen1:{ ch1: { gz:"6578", U: "2" }, ch2:{ gz:  "6863", U: "2" } } },
+      { gen1:{ ch1: { gz:"6785", U: "2" }, ch2:{ gz:  "7180", U: "2" } } },
+      { gen1:{ ch1: { gz:"5500", U: "2" }, ch2:{ gz:  "6000", U: "2" } } },
+      { gen1:{ ch1: { gz:"5500", U: "2" }, ch2:{ gz:  "2410", U: "2" } } },
+      { gen1:{ ch1: { gz:"5500", U: "2" }, ch2:{ gz:  "2405", U: "2" } } },
+      { gen1:{ ch1: { gz:"5500", U: "2" }, ch2:{ gz:  "2800", U: "2" } } },
+      { gen1:{ ch1: { gz:"5500", U: "2" }, ch2:{ gz:  "7070", U: "2" } } },
+      { gen1:{ ch1: { gz:"5500", U: "2" }, ch2:{ gz:  "6655", U: "2" } } },
+      { gen1:{ ch1: { gz:"5500", U: "2" }, ch2:{ gz:  "14507", U: "2" } } },
+      { gen1:{ ch1: { gz:"5500", U: "2" }, ch2:{ gz:  "15423", U: "2" } } },
+      { gen1:{ ch1: { gz:"5500", U: "2" }, ch2:{ gz:  "14965", U: "2" } } },
+      { gen1:{ ch1: { gz:"5500", U: "2" }, ch2:{ gz:  "1500", U: "2" } } },
+    ],)
     
 
 	var zam222_col2 = ref([
@@ -109,8 +122,25 @@ var setting_esu_222_1 = computed(() => {
       { gen1:{ ch1: { gz: "990", U: "2" }, ch2:{ gz:  "65", U:  "2"} } ,  gen2:{ ch1: { gz: "55", U: "35.38" }, ch2:{ gz:  "55", U:  "35.38"} } },
       { gen1:{ ch1: { gz: "1980", U: "20" }, ch2:{ gz:  "646", U:  "20"} } ,  gen2:{ ch1: { gz: "110", U: "70.6" }, ch2:{ gz:  "170", U:  "54.6"} } },
       { gen1:{ ch1: { gz: "4500", U: "20" }, ch2:{ gz:  "1339", U:  "20"} },  gen2:{ ch1: { gz: "350", U: "227.8" }, ch2:{ gz:  "350", U:  "56.7"} } },
-      { gen1:{ ch1: { gz: "4000", U: "2" }, ch2:{ gz:  "1200", U:  "2"} } ,  gen2:{ ch1: { gz: "350", U: "56.7" }, ch2:{ gz:  "350", U:  "227.8"} } },
-      ],)
+      { gen1:{ ch1: { gz: "4000", U: "2" }, ch2:{ gz:  "1200", U:  "2"} } ,  gen2:{ ch1: { gz: "350", U: "56.7" }, ch2:{ gz:  "350", U:  "227.8"} } },])
+     
+	var zamERRD1700_col1 = ref([
+      { gen1:{ ch1: { gz: "500", U: "2" }, ch2:{ gz:  "315", U:  "0.935"} } }, 
+      { gen1:{ ch1: { gz: "2000", U: "2" }, ch2:{ gz:  "315", U:  "0.935"} } }, 
+      { gen1:{ ch1: { gz: "4000", U: "4" }, ch2:{ gz:  "315", U:  "0.935"} } }, 
+      { gen1:{ ch1: { gz: "6730", U: "10" }, ch2:{ gz:  "315", U:  "0.935"} } }, 
+      ])
+
+	var zamERRD1700_col2 = ref([
+      { gen1:{ ch1: { gz: "500", U: "2" }, ch2:{ gz:  "20", U:  "320"} } }, 
+      { gen1:{ ch1: { gz: "500", U: "2" }, ch2:{ gz:  "312", U:  "320"} } },
+      { gen1:{ ch1: { gz: "500", U: "2" }, ch2:{ gz:  "420", U:  "320"} } },
+      { gen1:{ ch1: { gz: "500", U: "2" }, ch2:{ gz:  "527", U:  "320"} } },
+      { gen1:{ ch1: { gz: "500", U: "2" }, ch2:{ gz:  "600", U:  "320"} } }, 
+      { gen1:{ ch1: { gz: "500", U: "2" }, ch2:{ gz:  "315", U:  "320"} } },
+      { gen1:{ ch1: { gz: "500", U: "2" }, ch2:{ gz:  "340", U:  "320"} } },
+      { gen1:{ ch1: { gz: "500", U: "2" }, ch2:{ gz:  "370", U:  "320"} } },
+      ])
 
   function get_command_g1(chenal){
      var command=""
@@ -215,5 +245,5 @@ var setting_esu_222_1 = computed(() => {
 
     }
 
-  return {get_command_g1,get_command_g2,battery_icon, battery_info,sendPostRequest,showed,showed2,title,with_one_collumn,zamERRD436,zamESU436,zam222_col2,zam222_col1,zamESU_222_1, list_one_collumn ,setting_436 ,setting_222 ,setting_errd_18_200_80 , setting_esu_222_1 ,setting_errd436 ,setting , }
+  return {setting_1700,zamERRD1700_col2,zamERRD1700_col1,get_command_g1,get_command_g2,battery_icon, battery_info,sendPostRequest,showed,showed2,title,with_one_collumn,zamERRD436,zamESU436,zam222_col2,zam222_col1,zamESU_222_1, list_one_collumn ,setting_436 ,setting_222 ,setting_errd_18_200_80 , setting_esu_222_1 ,setting_errd436 ,setting , }
 })

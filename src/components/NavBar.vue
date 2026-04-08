@@ -40,12 +40,14 @@ var clickOnDevice=(item)=>{
   store.showed=[]
   store.showed2=[]
 }
-var devices={"ЭСУ-436":store.setting_436,
-        "ЭРРД-436":store.setting_errd436,
-        "ЭСУ-222":store.setting_222,
-        "ЭСУ-222-1":store.setting_esu_222_1,
-        "ЭРРД-18-200-80":store.setting_errd_18_200_80,
-      }
+var devices={
+      "ЭСУ-436":store.setting_436,
+      "ЭРРД-436":store.setting_errd436,
+      "ЭСУ-222":store.setting_222,
+      "ЭРРД-1700":store.setting_1700,
+      "ЭСУ-222-1":store.setting_esu_222_1,
+      "ЭРРД-18-200-80":store.setting_errd_18_200_80,
+    }
 </script>
 
 
