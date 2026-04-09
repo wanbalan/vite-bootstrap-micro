@@ -20,7 +20,7 @@
           v-for="(but, index) in deviceSetting().col1 "
           :key="index">
         <VibeButton 
-          class="col-8 col-sm-3 "
+          class="col-8 col-sm-4 "
           type="submit" form="form"
             @click="clickOnButtonFromOneColumn(index, but, 1)">
             <div v-html="text(but)"></div>
@@ -42,7 +42,7 @@
         :key="index"
         >
         <VibeButton 
-          class="col-8 col-sm-3 "
+          class="col-8 col-sm-4 "
           type="submit" form="form"
             @click="clickOnButtonFromTwoColumn(index, but, 1)">
           <div v-html="text(but)"></div>

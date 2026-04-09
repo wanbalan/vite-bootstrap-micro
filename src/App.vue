@@ -1,24 +1,34 @@
 <template >
   <NavBar/>
-  
+  <VibeAlert
+    variant="danger"
+    dismissable
+    v-model="showAlert"
+    message="This alert can be dismissed"
+  />
   <br><br>
-  <div class="container-fluid text-center pt-3" data-bs-theme="dark">
+  <div class="container-fluid pt-3" data-bs-theme="dark">
+  <div class="row">
+    <div class="col col-md-3">
+        <Generators></Generators>
+    </div>
+    <div class="col">
     <div class="card">
-      <div class="container " >
-        <div class="row ">
-          <div class="col">
+      <div class="container" >
             <dev-button ></dev-button >
-          </div>
-         </div>
       </div>
     </div>
+    </div>
+  </div>
   </div>
   
 </template>
 
 <script setup lang="ts">
+
 // import { computed } from 'vue' //
 import NavBar from './components/NavBar.vue'
+import Generators from './components/Generators.vue'
 import DevButton from './components/DevButton.vue'
 // import { useCounterStore } from './store/MapStore.ts' //
 // const store = useCounterStore() //
