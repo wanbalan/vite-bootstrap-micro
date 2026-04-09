@@ -11,7 +11,7 @@
               <div class="col">
              <VibeFormRadio
               v-model="picked"
-              name="myGroup"
+              name="G1"
               value="SOUR1"
               label="CH1"
             />
@@ -19,7 +19,7 @@
               <div class="col">
             <VibeFormRadio
               v-model="picked"
-              name="myGroup"
+              name="G1"
               value="SOUR2"
               label="CH2"
             />
@@ -53,11 +53,15 @@
 <script setup lang="ts">
 import { validators } from '@velkymx/vibeui'
 import { ref, computed } from 'vue'
-const picked = ref('SOUR1')
+  const picked = ref('SOUR1')
   var g1_freq=ref("")
   var g1_volt=ref("")
-  var g1_freq_valid=computed(()=>(Number(g1_freq.value || g1_freq.value== "") ? "null" : "invalid")) 
-  var g1_volt_valid=ref("null")
+  var g1_freq_valid=computed(()=>Number(g1_freq.value )|| g1_freq.value== "" ? "null" : "invalid") 
+  var g1_volt_valid=computed(()=>(Number(g1_volt.value) || g1_volt.value== "")  &&  g1_volt.value <= 20 ? "null" : "invalid") 
   function sendCommand(data){
+// SOUR1:APPL:SIN ${but.gen1.ch1.gz},${but.gen1.ch1.U} //
+// self.inst.write("SOUR1:APPL:SIN "+str(freq)+".0e+0,"+str(volt)+"vpp;:SOUR2:APPL:SIN "+str(freq2)+".0e+0,"+str(volt2)+"vpp\n")
+
+    console.log("send: ", `${picked.value}:SIN ${g1_freq.value.trim()},${g1_volt.value.trim()}\r\n`)
   }
 </script>
