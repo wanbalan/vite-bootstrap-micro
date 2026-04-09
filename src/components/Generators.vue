@@ -12,7 +12,7 @@
              <VibeFormRadio
               v-model="picked"
               name="myGroup"
-              value="one"
+              value="SOUR1"
               label="CH1"
             />
               </div>
@@ -20,7 +20,7 @@
             <VibeFormRadio
               v-model="picked"
               name="myGroup"
-              value="two"
+              value="SOUR2"
               label="CH2"
             />
               </div>
@@ -53,36 +53,11 @@
 <script setup lang="ts">
 import { validators } from '@velkymx/vibeui'
 import { ref, computed } from 'vue'
-const picked = ref('one')
+const picked = ref('SOUR1')
   var g1_freq=ref("")
   var g1_volt=ref("")
-  var g1_freq_valid=computed(()=>{
-        console.log("f1 :")
-        if (Number(g1_freq.value) > 10){
-        return "null"
-        }
-        else {
-          
-        return "invalid"
-        }
-      }) 
+  var g1_freq_valid=computed(()=>(Number(g1_freq.value || g1_freq.value== "") ? "null" : "invalid")) 
   var g1_volt_valid=ref("null")
   function sendCommand(data){
-    console.log(data, g1_freq.value, g1_volt.value)
-    if (!isNaN(Number.parseInt(g1_freq.value))){
-     g1_freq_valid.value="null"
-     var  freq=Number(g1_freq.value)
-      g1_freq.value=""
-      }
-    else if (!isNaN(Number.parseInt(g1_volt.value))){
-     g1_volt_valid.value="null"
-     var volt=Number(g1_volt.value)
-      g1_volt.value=""
-    }
-    else {
-        // console.log(error) //
-        g1_freq_valid.value="invalid"
-        // console.error('Ошибка при отправке запроса:', error); //
-      }
   }
 </script>
