@@ -1,7 +1,63 @@
 <template>
+<div class="container-fluid pb-2">
+  <div class="row">
+            <div class="col-3 col-sm-3 px-0">
+              <div class="card shadow-0 border border-warning">
+                <div class="card-header ">V</div>
+                <div class="card-body">
+                  <div class="row">
+                    <vibe-icon type="button" icon="arrow-up-square" class="fs-4 p-1"></vibe-icon>
+                    <vibe-icon :icon="g1_volt+'-circle'" class="fs-3 p-1 text-secondary"></vibe-icon>
+                    <vibe-icon type="button" icon="arrow-down-square" class="fs-4 p-1"></vibe-icon>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="col-9  col-sm-9 pe-0">
+              <div class="card shadow-0  border-warning">
+                <div class="card-header">mV</div>
+                <div class="card-body">
+                <div class="row">
+                  <div class="col">
+                    <div class="row">
+                      <vibe-icon type="button" icon="arrow-up-square" class="fs-4 p-1  bs-primary"></vibe-icon>
+                      <vibe-icon icon="7-circle" class="fs-3 p-1 text-secondary"></vibe-icon>
+                      <vibe-icon type="button" icon="arrow-down-square" class="fs-4 p-1"></vibe-icon>
+                    </div>
+                  </div>
+                <div class="col">
+                  <div class="row">
+                    <vibe-icon type="button" icon="arrow-up-square" class="fs-4 p-1 "></vibe-icon>
+                    <vibe-icon icon="7-circle" class="fs-3 p-1 text-secondary"></vibe-icon>
+                    <vibe-icon type="button" icon="arrow-down-square" class="fs-4 p-1"></vibe-icon>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="row">
+                    <vibe-icon type="button" icon="arrow-up-square" class="fs-4 p-1 "></vibe-icon>
+                    <vibe-icon icon="7-circle" class="fs-3 p-1 text-secondary"></vibe-icon>
+                    <vibe-icon type="button" icon="arrow-down-square" class="fs-4 p-1"></vibe-icon>
+                  </div>
+                </div>
+                </div>
+              </div>
+            </div>
+</div>
+
+
+</div>
+  </div>
+
+
+
+
+
+        
 <div class="container">
   <div class="row">
-    <div class="col col-md-12 pb-3">
+    <div class="col col-md-12 pb-2 px-0">
       <div class="card border border-primary shadow-0">
         <div class="card-header">Генератор</div>
         <div class="card-body">
@@ -42,66 +98,19 @@
             placeholder="Напряжение, В"
             />
           </VibeFormGroup>
-<div class="col p-3">
-      <VibeFormGroup>
-        <div class="row ">
-          <div class="col p-0">
-              <VibeFormInput
-                :validationState="g1_input1_valid"
-                validationState='null'
-                validationMessage='Значение дожно быть числом от 0 до 20'
-                size="sm"
-                type="number"
-                vertical="False"
-                v-model="g1_input1"
-              />
-          </div>
-          <div class="col-1 p-0">
-              <strong>.</strong>
-          </div>
-          <div class="col p-0">
-              <VibeFormInput
-                :validationState="g1_input2_valid"
-                validationState='null'
-                validationMessage='Значение дожно быть числом от 0 до 10'
-                size="sm"
-                type="number"
-                vertical="False"
-                v-model="g1_input2"
-              />
-          </div>
-          <div class="col p-0">
-              <VibeFormInput
-                size="sm"
-                type="number"
-                vertical="False"
-                v-model="g1_input3"
-              />
-          </div>
-          <div class="col p-0">
-              <VibeFormInput
-                size="sm"
-                type="number"
-                vertical="False"
-                v-model="g1_input4"
-              />
-          </div>
-        </div>
-      </VibeFormGroup>
-</div>
-          
+
         
         </div>
       </div>
     </div>
-    <div class="col col-md-12 pb-3">
+    <div class="col col-md-12 pb-2 px-0">
       <div class="card border border-success shadow-0 ">
         <div class="card-header">Генератор</div>
-        <div class="card-body">
+        <div class="card-body ">
 
           <VibeFormGroup >
             <div class="row">
-              <div class="col">
+              <div class="col ">
              <VibeFormRadio
               v-model="g2_picked"
               name="G2"

@@ -44,7 +44,7 @@
         <VibeButton 
           class="col-8 col-sm-4 "
           type="submit" form="form"
-            @click="clickOnButtonFromTwoColumn(index, but, 1)">
+          @click="clickOnButtonFromTwoColumn(index, but, 1)">
           <div v-html="text(but)"></div>
           <vibe-icon type="button" v-show="store.showed[index]" icon="check-circle-fill" class="me-2"></vibe-icon>
         </VibeButton >
@@ -95,8 +95,9 @@ const { deviceSetting,} = computed(() => ({
       else {
         store.sendPostRequest(`SOUR1:APPL:SIN ${but.gen1.ch1.gz},${but.gen1.ch1.U};:SOUR2:APPL:SIN ${but.gen1.ch2.gz},${but.gen1.ch2.U}\r\n`, "generator-one")
         store.sendPostRequest(`SOUR1:APPL:SIN ${but.gen2.ch1.gz},${but.gen2.ch1.U}mvrms;:SOUR2:APPL:SIN ${but.gen2.ch2.gz},${but.gen2.ch2.U}mvrms\r\n`, "generator-two")
-        
+        store.last_volt=but.gen2.ch2.U
       }
+      store.parse_volt()
   }
   function clickOnButtonFromTwoColumn(index, but){
     store.showed[index]=true
@@ -106,8 +107,9 @@ const { deviceSetting,} = computed(() => ({
       else {
         store.sendPostRequest(`SOUR1:APPL:SIN ${but.gen1.ch1.gz},${but.gen1.ch1.U};:SOUR2:APPL:SIN ${but.gen1.ch2.gz},${but.gen1.ch2.U}\r\n`, "generator-one")
         store.sendPostRequest(`SOUR1:APPL:SIN ${but.gen2.ch1.gz},${but.gen2.ch1.U}mvrms;:SOUR2:APPL:SIN ${but.gen2.ch2.gz},${but.gen2.ch2.U}mvrms\r\n`, "generator-two")
-        
+        store.last_volt=but.gen2.ch2.U
       }
+      store.parse_volt()
   }
 
   function turn_one_output(chenal,generator){

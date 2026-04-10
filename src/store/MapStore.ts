@@ -1,11 +1,58 @@
 import { defineStore } from 'pinia'
-import {computed,ref }from 'vue' 
+import {computed,ref,watch }from 'vue' 
 	export const useCounterStore = defineStore('counter', () => {
 	battery_info()
+	var last_volt =ref("0")
   var g1_output1=ref(0)
   var g1_output2=ref(0)
   var g2_output1=ref(0)
   var g2_output2=ref(0)
+
+    var l0=ref(0)
+    var l1=ref(0)
+    var l2=ref(0)
+    var l3=ref(0)
+    var l4=ref(0)
+
+  // watch([l0,l1,l2,l3], ()=>{
+  //     var sum=0
+  //     var LL=[l0.value,l1.value,l2.value,l3.value,]
+  //     LL.forEach((val,index,)=>{
+  //       sum+=Number.parseInt(val) || 0
+  //       console.log("sum! ", sum)
+  //      })
+  //     })
+  // var l0_val=computed({
+  //   get: ()=> {
+      
+  //   },
+  //   set: (new_value)=>{
+  //     console.log("setter!")
+  //    }
+  // })
+    
+  function parse_volt(){
+    console.log("this.last_volt ========>",this.last_volt, typeof(this.last_volt), this.l0, this.l1, this.l2, this.l3, this.l4)
+    if (this.last_volt.includes(".")){
+      var [start, end ]=this.last_volt.split(".")
+      var d_start=start.split("")
+      var d_end=end.split("")
+      this.l4=d_end.pop() || 0
+      this.l3=d_start.pop() || 0
+      this.l2=d_start.pop() || 0
+      this.l1=d_start.pop() || 0
+      this.l0=d_start.pop() || 0
+      }
+    else {
+      var start=this.last_volt.split("")
+      this.l4=0
+      this.l3=start.pop() || 0
+      this.l2=start.pop() || 0
+      this.l1=start.pop() || 0
+      this.l0=start.pop() || 0
+         
+    }
+  }
 
   var battery_icon=ref({"icon": "battery-full","color": "text-success"})
 	var zamESU436 = ref([
@@ -245,5 +292,5 @@ var setting_esu_222_1 = computed(() => {
 
     }
 
-  return {setting_1700,zamERRD1700_col2,zamERRD1700_col1,get_command_g1,get_command_g2,battery_icon, battery_info,sendPostRequest,showed,showed2,title,with_one_collumn,zamERRD436,zamESU436,zam222_col2,zam222_col1,zamESU_222_1, list_one_collumn ,setting_436 ,setting_222 ,setting_errd_18_200_80 , setting_esu_222_1 ,setting_errd436 ,setting , }
+  return {l4,l3,l2,l1,l0,parse_volt,last_volt,setting_1700,zamERRD1700_col2,zamERRD1700_col1,get_command_g1,get_command_g2,battery_icon, battery_info,sendPostRequest,showed,showed2,title,with_one_collumn,zamERRD436,zamESU436,zam222_col2,zam222_col1,zamESU_222_1, list_one_collumn ,setting_436 ,setting_222 ,setting_errd_18_200_80 , setting_esu_222_1 ,setting_errd436 ,setting , }
 })
