@@ -1,15 +1,9 @@
 <template >
   <NavBar/>
-  <VibeAlert
-    variant="danger"
-    dismissable
-    v-model="showAlert"
-    message="This alert can be dismissed"
-  />
   <br><br>
   <div class="container-fluid pt-3" data-bs-theme="dark">
   <div class="row">
-    <div class="col col-md-3">
+    <div class="col-6 col-md-4">
         <Generators></Generators>
     </div>
     <div class="col">
