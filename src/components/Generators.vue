@@ -8,37 +8,37 @@
                 <div class="row row-cols-5 ">
                   <div class="col">
                     <div class="row">
-                      <vibe-icon type="button" @click="incrementL0" icon="arrow-up-short" class="fs-4 p-1  bs-primary"></vibe-icon>
-                      <vibe-icon @wheel.prevent="w_incrementL0" :icon="store.l0+'-circle'" class="fs-3 p-1 text-success"></vibe-icon>
-                      <vibe-icon type="button" @click="decrementL0" icon="arrow-down-short" class="fs-4 p-1"></vibe-icon>
+                      <vibe-icon type="button" @click="incrementL0" icon="arrow-up-short" class="fs-4 p-1  py-0  bs-primary"></vibe-icon>
+                      <vibe-icon @wheel.prevent="w_incrementL0" :icon="store.l0+'-circle'" class="fs-3 p-1 py-0 text-success"></vibe-icon>
+                      <vibe-icon type="button" @click="decrementL0" icon="arrow-down-short" class="fs-4 p-1 py-0 "></vibe-icon>
                     </div>
                   </div>
                   <div class="col">
                     <div class="row">
-                      <vibe-icon type="button"  @click="incrementL1" icon="arrow-up-short" class="fs-4 p-1  bs-primary"></vibe-icon>
-                      <vibe-icon @wheel.prevent="w_incrementL1" :icon="store.l1+'-circle'" class="fs-3 p-1 text-success"></vibe-icon>
-                      <vibe-icon type="button"  @click="decrementL1" icon="arrow-down-short" class="fs-4 p-1"></vibe-icon>
+                      <vibe-icon type="button"  @click="incrementL1" icon="arrow-up-short" class="fs-4 p-1   py-0 bs-primary"></vibe-icon>
+                      <vibe-icon @wheel.prevent="w_incrementL1" :icon="store.l1+'-circle'" class="fs-3 p-1 py-0 text-success"></vibe-icon>
+                      <vibe-icon type="button"  @click="decrementL1" icon="arrow-down-short" class="fs-4 p-1 py-0 "></vibe-icon>
                     </div>
                   </div>
                   <div class="col">
                     <div class="row">
-                      <vibe-icon type="button"  @click="incrementL2" icon="arrow-up-short" class="fs-4 p-1  bs-primary"></vibe-icon>
-                      <vibe-icon @wheel.prevent="w_incrementL2" :icon="store.l2+'-circle'" class="fs-3 p-1 text-success"></vibe-icon>
-                      <vibe-icon type="button"  @click="decrementL2" icon="arrow-down-short" class="fs-4 p-1"></vibe-icon>
+                      <vibe-icon type="button"  @click="incrementL2" icon="arrow-up-short" class="fs-4 p-1  py-0  bs-primary"></vibe-icon>
+                      <vibe-icon @wheel.prevent="w_incrementL2" :icon="store.l2+'-circle'" class="fs-3 p-1 py-0 text-success"></vibe-icon>
+                      <vibe-icon type="button"  @click="decrementL2" icon="arrow-down-short" class="fs-4 p-1 py-0 "></vibe-icon>
                     </div>
                   </div>
                 <div class="col">
                   <div class="row">
-                    <vibe-icon type="button"  @click="incrementL3" icon="arrow-up-short" class="fs-4 p-1 "></vibe-icon>
-                    <vibe-icon @wheel.prevent="w_incrementL3" :icon="store.l3+'-circle'" class="fs-3 p-1 text-success"></vibe-icon>
-                    <vibe-icon type="button"  @click="decrementL3" icon="arrow-down-short" class="fs-4 p-1"></vibe-icon>
+                    <vibe-icon type="button"  @click="incrementL3" icon="arrow-up-short" class="fs-4 p-1  py-0 "></vibe-icon>
+                    <vibe-icon @wheel.prevent="w_incrementL3" :icon="store.l3+'-circle'" class="fs-3 p-1 py-0 text-success"></vibe-icon>
+                    <vibe-icon type="button"  @click="decrementL3" icon="arrow-down-short" class="fs-4 p-1 py-0 "></vibe-icon>
                   </div>
                 </div>
                 <div class="col">
                   <div class="row">
-                    <vibe-icon type="button" @click="incrementL4" icon="arrow-up-short" class="fs-4 p-1 "></vibe-icon>
-                    <vibe-icon @wheel.prevent="w_incrementL4" :icon="store.l4+'-circle'" class="fs-3 p-1 text-danger"></vibe-icon>
-                    <vibe-icon type="button" @click="decrementL4" icon="arrow-down-short" class="fs-4 p-1"></vibe-icon>
+                    <vibe-icon type="button" @click="incrementL4" icon="arrow-up-short" class="fs-4 p-1 py-0 "></vibe-icon>
+                    <vibe-icon @wheel.prevent="w_incrementL4" :icon="store.l4+'-circle'" class="fs-3 p-1 py-0 text-danger"></vibe-icon>
+                    <vibe-icon type="button" @click="decrementL4" icon="arrow-down-short" class="fs-4 p-1 py-0 "></vibe-icon>
                   </div>
                 </div>
                 </div>
