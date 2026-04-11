@@ -57,7 +57,7 @@ var devices={
       }
    @media (max-width: 500.98px) {
       #offcanvasNavbar {
-        width : 35%;
+        width : 45%;
       }
     }
 </style>

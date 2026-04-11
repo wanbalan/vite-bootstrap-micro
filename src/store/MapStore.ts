@@ -1,18 +1,33 @@
 import { defineStore } from 'pinia'
 import {computed,ref,watch }from 'vue' 
 	export const useCounterStore = defineStore('counter', () => {
+	  const TIME_BATERY_UPDATE=60*1000*5 // 5min
+	  const TIME_SEND_FREQ=500 // 200ms
+	  var changed_by_gen_menu=ref(false)
+
+    setInterval(async () => {
+      if (prev_last_volt.value != last_volt.value && changed_by_gen_menu.value){
+        console.log("stInterval 200")
+        sendPostRequest(`SOUR2:VOLT ${last_volt.value}mvrms\r\n`,"generator-two")
+        prev_last_volt.value=last_volt.value
+        changed_by_gen_menu.value=false
+      }
+
+    }, TIME_SEND_FREQ); 
+
 	battery_info()
 	var last_volt=ref("0")
+	var prev_last_volt=ref("0")
   var g1_output1=ref(0)
   var g1_output2=ref(0)
   var g2_output1=ref(0)
   var g2_output2=ref(0)
 
-    var l0=ref(0)
-    var l1=ref(0)
-    var l2=ref(0)
-    var l3=ref(0)
-    var l4=ref(0)
+    var l0=ref("0")
+    var l1=ref("0")
+    var l2=ref("0")
+    var l3=ref("0")
+    var l4=ref("0")
 
     watch(last_volt, ()=> devide_last_volt())
 
@@ -26,35 +41,34 @@ import {computed,ref,watch }from 'vue'
   function change_last_volt(volt){
     var concatL=""
     var LL=[l0.value,l1.value,l2.value,l3.value,]
-      LL.forEach((val,index,)=>{
+      LL.forEach((val,)=>{
         concatL+=val.toString()
        })
     var full_volt=Number.parseFloat(concatL)+ Number.parseFloat(`0.${l4.value}`)+ volt
     last_volt.value=full_volt.toFixed(1).toString()
+    changed_by_gen_menu.value=true
     console.log("change_last_volt! ", last_volt.value)
         
   }
-
+  
   function devide_last_volt(){
-      console.log("devide_last_volt!")
+      // console.log("devide_last_volt!")
     if (last_volt.value.includes(".")){
       var [start, end ]=last_volt.value.split(".")
-      var d_start=start.split("")
-      var d_end=end.split("")
-      l4.value=d_end.pop() || 0
-      l3.value=d_start.pop() || 0
-      l2.value=d_start.pop() || 0
-      l1.value=d_start.pop() || 0
-      l0.value=d_start.pop() || 0
+      var l_start=start.split("")
+      l4.value=end[0] || "0"
+      l3.value=l_start.pop() || "0"
+      l2.value=l_start.pop() || "0"
+      l1.value=l_start.pop() || "0"
+      l0.value=l_start.pop() || "0"
       }
     else {
-      var start=last_volt.value.split("")
-      l4.value=0
-      l3.value=start.pop() || 0
-      l2.value=start.pop() || 0
-      l1.value=start.pop() || 0
-      l0.value=start.pop() || 0
-         
+      l_start=last_volt.value.split("")
+      l4.value="0"
+      l3.value=l_start.pop() || "0"
+      l2.value=l_start.pop() || "0"
+      l1.value=l_start.pop() || "0"
+      l0.value=l_start.pop() || "0"
     }
   }
 
@@ -196,17 +210,17 @@ var setting_esu_222_1 = computed(() => {
   function get_command_g1(chenal){
      var command=""
      if (chenal == "CH1"){
-        this.g1_output1=Number(!this.g1_output1)
-        command=`OUTput1 ${this.g1_output1}\r\n`
+        g1_output1.value=Number(!g1_output1.value)
+        command=`OUTput1 ${g1_output1.value}\r\n`
     }   
      else if (chenal == "CH2"){
-        this.g1_output2=Number(!this.g1_output2 )
-        command=`OUTput2 ${this.g1_output2}\r\n`
+        g1_output2.value=Number(!g1_output2.value )
+        command=`OUTput2 ${g1_output2.value}\r\n`
     }   
      else if (chenal == "CH1_CH2"){
-        this.g1_output1=Number(!this.g1_output1 )
-        this.g1_output2=Number(!this.g1_output2 )
-        command=`OUTput1 ${this.g1_output1};:OUTput2 ${this.g1_output2}\r\n`
+        g1_output1.value=Number(!g1_output1.value )
+        g1_output2.value=Number(!g1_output2.value )
+        command=`OUTput1 ${g1_output1.value};:OUTput2 ${g1_output2.value}\r\n`
     }   
     else {
       console.log("Произошла какая-то ошибка!")
@@ -217,17 +231,17 @@ var setting_esu_222_1 = computed(() => {
   function get_command_g2(chenal){
      var command=""
      if (chenal == "CH1"){
-        this.g2_output1=Number(!this.g2_output1)
-        command=`OUTput1 ${this.g2_output1}\r\n`
+        g2_output1.value=Number(!g2_output1.value)
+        command=`OUTput1 ${g2_output1.value}\r\n`
     }   
      else if (chenal == "CH2"){
-        this.g2_output2=Number(!this.g2_output2 )
-        command=`OUTput2 ${this.g2_output2}\r\n`
+        g2_output2.value=Number(!g2_output2.value )
+        command=`OUTput2 ${g2_output2.value}\r\n`
     }   
      else if (chenal == "CH1_CH2"){
-        this.g2_output1=Number(!this.g2_output1 )
-        this.g2_output2=Number(!this.g2_output2 )
-        command=`OUTput1 ${this.g2_output1};:OUTput2 ${this.g2_output2}\r\n`
+        g2_output1.value=Number(!g2_output1.value )
+        g2_output2.value=Number(!g2_output2.value )
+        command=`OUTput1 ${g2_output1.value};:OUTput2 ${g2_output2.value}\r\n`
     }   
     else {
       console.log("Произошла какая-то ошибка!")
@@ -262,10 +276,10 @@ var setting_esu_222_1 = computed(() => {
       }
 }
     setInterval(async () => {
-      console.log('set interval');
+      // console.log('set interval ');
       battery_info()
 
-    }, 300000); // Выполняется каждую секунду
+    }, TIME_BATERY_UPDATE); // Выполняется каждую секунду
 
     async function battery_info(){
       fetch('http://127.0.0.1:8080/info')

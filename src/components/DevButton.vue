@@ -1,5 +1,5 @@
 <template >
-<div class="row">
+<div class="row ">
   <div class="col">
 
     <h1 ><strong class="text-muted">{{ deviceSetting().col1Title}}</strong></h1>
@@ -20,9 +20,9 @@
           v-for="(but, index) in deviceSetting().col1 "
           :key="index">
         <VibeButton 
-          class="col-8 col-sm-4 "
-          type="submit" form="form"
-            @click="clickOnButtonFromOneColumn(index, but, 1)">
+          class="col-8 col-sm-4 px-1"
+          type="submit"
+            @click="clickOnButtonFromOneColumn(index, but)">
             <div v-html="text(but)"></div>
             <vibe-icon type="button" v-show="store.showed2[index]" icon="check-circle-fill" class="me-2 "></vibe-icon>
         </VibeButton>
@@ -42,9 +42,9 @@
         :key="index"
         >
         <VibeButton 
-          class="col-8 col-sm-4 "
-          type="submit" form="form"
-          @click="clickOnButtonFromTwoColumn(index, but, 1)">
+          class="col-8 col-sm-4 px-1"
+          type="submit"
+          @click="clickOnButtonFromTwoColumn(index, but)">
           <div v-html="text(but)"></div>
           <vibe-icon type="button" v-show="store.showed[index]" icon="check-circle-fill" class="me-2"></vibe-icon>
         </VibeButton >
@@ -57,7 +57,7 @@
 import {computed,}from 'vue'
 import { useCounterStore } from '../store/MapStore'
 const store = useCounterStore()
-var with_one_gen=["ЭСУ-436","ЭРРД-436"]
+var with_one_gen=["ЭСУ-436","ЭРРД-436","ЭРРД-1700"]
   var devices={
         "ЭСУ-436":store.setting_436,
         "ЭРРД-436":store.setting_errd436,
@@ -78,7 +78,7 @@ const { deviceSetting,} = computed(() => ({
                   but.gen1.ch2.gz  + " Гц " : but.gen2.ch1.gz + " Гц <br>" + but.gen2.ch1.U + " mV" 
         }
       else if ( store.title == 'ЭРРД-1700' ) {
-        return but.gen1.ch1.gz + " Гц <br>" + but.gen1.ch1.U + " В"
+        return but.gen1.ch1.gz + " Гц <br>" + but.gen1.ch2.gz + " Гц"
       }
       else {
         return but.gen1.ch1.gz + " Гц <br>" + but.gen1.ch2.gz  + " Гц "
@@ -86,10 +86,10 @@ const { deviceSetting,} = computed(() => ({
     }
     function clickOnButtonFromOneColumn(index, but){
       store.showed2[index]=true
-      if (store.title == "ЭСУ-436" ){
+      if (store.title == "ЭСУ-436" || store.title == "ЭРРД-436" ){
         store.sendPostRequest(`SOUR1:APPL:SQU ${but.gen1.ch1.gz},${but.gen1.ch1.U};:SOUR2:APPL:SQU ${but.gen1.ch2.gz},${but.gen1.ch2.U}\r\n`, "generator-one")
       }
-      else if (store.title == "ЭСУ-222"){
+      else if (store.title == "ЭСУ-222" || store.title == "ЭРРД-1700" ){
         store.sendPostRequest(`SOUR1:APPL:SIN ${but.gen1.ch1.gz},${but.gen1.ch1.U};:SOUR2:APPL:SIN ${but.gen1.ch2.gz},${but.gen1.ch2.U}\r\n`, "generator-one")
       }
       else {
@@ -101,8 +101,12 @@ const { deviceSetting,} = computed(() => ({
 
   function clickOnButtonFromTwoColumn(index, but){
     store.showed[index]=true
-      if (store.title == "ЭСУ-436"){
+      if (store.title == "ЭСУ-436" || store.title == "ЭРРД-436" ){
         store.sendPostRequest(`SOUR1:APPL:SQU ${but.gen1.ch1.gz},${but.gen1.ch1.U};:SOUR2:APPL:SQU ${but.gen1.ch2.gz},${but.gen1.ch2.U}\r\n`, "generator-one")
+      }
+      else if (store.title == "ЭРРД-1700" ){
+        store.sendPostRequest(`SOUR1:APPL:SIN ${but.gen1.ch1.gz},${but.gen1.ch1.U};:SOUR2:APPL:SIN ${but.gen1.ch2.gz},${but.gen1.ch2.U}\r\n`, "generator-one")
+        store.last_volt=but.gen1.ch2.U
       }
       else {
         store.sendPostRequest(`SOUR1:APPL:SIN ${but.gen1.ch1.gz},${but.gen1.ch1.U};:SOUR2:APPL:SIN ${but.gen1.ch2.gz},${but.gen1.ch2.U}\r\n`, "generator-one")
