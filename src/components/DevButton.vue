@@ -97,8 +97,8 @@ const { deviceSetting,} = computed(() => ({
         store.sendPostRequest(`SOUR1:APPL:SIN ${but.gen2.ch1.gz},${but.gen2.ch1.U}mvrms;:SOUR2:APPL:SIN ${but.gen2.ch2.gz},${but.gen2.ch2.U}mvrms\r\n`, "generator-two")
         store.last_volt=but.gen2.ch2.U
       }
-      store.parse_volt()
   }
+
   function clickOnButtonFromTwoColumn(index, but){
     store.showed[index]=true
       if (store.title == "ЭСУ-436"){
@@ -109,7 +109,6 @@ const { deviceSetting,} = computed(() => ({
         store.sendPostRequest(`SOUR1:APPL:SIN ${but.gen2.ch1.gz},${but.gen2.ch1.U}mvrms;:SOUR2:APPL:SIN ${but.gen2.ch2.gz},${but.gen2.ch2.U}mvrms\r\n`, "generator-two")
         store.last_volt=but.gen2.ch2.U
       }
-      store.parse_volt()
   }
 
   function turn_one_output(chenal,generator){

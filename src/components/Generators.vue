@@ -3,42 +3,42 @@
   <div class="row">
             <div class="col  col-sm ">
               <div class="card shadow-0  border-warning">
-                <div class="card-header">Точная настройка</div>
+                <div class="card-header">Точная настройка, mV</div>
                 <div class="card-body">
                 <div class="row row-cols-5 ">
                   <div class="col">
                     <div class="row">
-                      <vibe-icon type="button" @click="incrementL0" icon="arrow-up-square" class="fs-4 p-1  bs-primary"></vibe-icon>
-                      <vibe-icon :icon="store.l0+'-circle'" class="fs-3 p-1 text-success"></vibe-icon>
-                      <vibe-icon type="button" @click="decrementL0" icon="arrow-down-square" class="fs-4 p-1"></vibe-icon>
+                      <vibe-icon type="button" @click="incrementL0" icon="arrow-up-short" class="fs-4 p-1  bs-primary"></vibe-icon>
+                      <vibe-icon @wheel.prevent="w_incrementL0" :icon="store.l0+'-circle'" class="fs-3 p-1 text-success"></vibe-icon>
+                      <vibe-icon type="button" @click="decrementL0" icon="arrow-down-short" class="fs-4 p-1"></vibe-icon>
                     </div>
                   </div>
                   <div class="col">
                     <div class="row">
-                      <vibe-icon type="button"  @click="incrementL1" icon="arrow-up-square" class="fs-4 p-1  bs-primary"></vibe-icon>
-                      <vibe-icon :icon="store.l1+'-circle'" class="fs-3 p-1 text-success"></vibe-icon>
-                      <vibe-icon type="button"  @click="decrementL1" icon="arrow-down-square" class="fs-4 p-1"></vibe-icon>
+                      <vibe-icon type="button"  @click="incrementL1" icon="arrow-up-short" class="fs-4 p-1  bs-primary"></vibe-icon>
+                      <vibe-icon @wheel.prevent="w_incrementL1" :icon="store.l1+'-circle'" class="fs-3 p-1 text-success"></vibe-icon>
+                      <vibe-icon type="button"  @click="decrementL1" icon="arrow-down-short" class="fs-4 p-1"></vibe-icon>
                     </div>
                   </div>
                   <div class="col">
                     <div class="row">
-                      <vibe-icon type="button"  @click="incrementL2" icon="arrow-up-square" class="fs-4 p-1  bs-primary"></vibe-icon>
-                      <vibe-icon :icon="store.l2+'-circle'" class="fs-3 p-1 text-success"></vibe-icon>
-                      <vibe-icon type="button"  @click="decrementL2" icon="arrow-down-square" class="fs-4 p-1"></vibe-icon>
+                      <vibe-icon type="button"  @click="incrementL2" icon="arrow-up-short" class="fs-4 p-1  bs-primary"></vibe-icon>
+                      <vibe-icon @wheel.prevent="w_incrementL2" :icon="store.l2+'-circle'" class="fs-3 p-1 text-success"></vibe-icon>
+                      <vibe-icon type="button"  @click="decrementL2" icon="arrow-down-short" class="fs-4 p-1"></vibe-icon>
                     </div>
                   </div>
                 <div class="col">
                   <div class="row">
-                    <vibe-icon type="button"  @click="incrementL3" icon="arrow-up-square" class="fs-4 p-1 "></vibe-icon>
-                    <vibe-icon :icon="store.l3+'-circle'" class="fs-3 p-1 text-success"></vibe-icon>
-                    <vibe-icon type="button"  @click="decrementL3" icon="arrow-down-square" class="fs-4 p-1"></vibe-icon>
+                    <vibe-icon type="button"  @click="incrementL3" icon="arrow-up-short" class="fs-4 p-1 "></vibe-icon>
+                    <vibe-icon @wheel.prevent="w_incrementL3" :icon="store.l3+'-circle'" class="fs-3 p-1 text-success"></vibe-icon>
+                    <vibe-icon type="button"  @click="decrementL3" icon="arrow-down-short" class="fs-4 p-1"></vibe-icon>
                   </div>
                 </div>
                 <div class="col">
                   <div class="row">
-                    <vibe-icon type="button" @click="incrementL4" icon="arrow-up-square" class="fs-4 p-1 "></vibe-icon>
-                    <vibe-icon :icon="store.l4+'-circle'" class="fs-3 p-1 text-danger"></vibe-icon>
-                    <vibe-icon type="button" @click="decrementL4" icon="arrow-down-square" class="fs-4 p-1"></vibe-icon>
+                    <vibe-icon type="button" @click="incrementL4" icon="arrow-up-short" class="fs-4 p-1 "></vibe-icon>
+                    <vibe-icon @wheel.prevent="w_incrementL4" :icon="store.l4+'-circle'" class="fs-3 p-1 text-danger"></vibe-icon>
+                    <vibe-icon type="button" @click="decrementL4" icon="arrow-down-short" class="fs-4 p-1"></vibe-icon>
                   </div>
                 </div>
                 </div>
@@ -49,10 +49,6 @@
 
 </div>
   </div>
-
-
-
-
 
         
 <div class="container-fluid px-0 ">
@@ -156,31 +152,30 @@
 import { useCounterStore } from '../store/MapStore'
 const store = useCounterStore()
 import { ref, computed, watch } from 'vue'
-  
   const g1_picked = ref('SOUR1')
   const g2_picked = ref('SOUR1')
-  // var g1_input1=ref(0) //
-  // var g1_input2=ref(0) //
-  // var g1_input3=ref(0) //
-  // var g1_input4=ref(0) //
+
   var g1_freq=ref("")
   var g1_volt=ref("")
   var g2_freq=ref("")
   var g2_volt=ref("")
-  var incrementL0=()=>store.l0+=1
-  var decrementL0=()=>store.l0-=1
-  var incrementL1=()=>store.l1+=1
-  var decrementL1=()=>store.l1-=1
-  var incrementL2=()=>store.l2+=1
-  var decrementL2=()=>store.l2-=1
-  var incrementL3=()=>store.l3+=1
-  var decrementL3=()=>store.l3-=1
-  var incrementL4=()=>store.l4+=1
-  var decrementL4=()=>store.l4-=1
+  var w_incrementL0=(event)=>event.deltaY < 0 ? incrementL0() : decrementL0()
+  var w_incrementL1=(event)=>event.deltaY < 0 ? incrementL1() : decrementL1() 
+  var w_incrementL2=(event)=>event.deltaY < 0 ? incrementL2() : decrementL2() 
+  var w_incrementL3=(event)=>event.deltaY < 0 ? incrementL3() : decrementL3() 
+  var w_incrementL4=(event)=>event.deltaY < 0 ? incrementL4() : decrementL4() 
+  var incrementL0=()=>store.change_last_volt(1*1000)
+  var decrementL0=()=> store.before_change(0) ? store.change_last_volt(-1*1000) : false
+  var incrementL1=()=>store.change_last_volt(1*100)
+  var decrementL1=()=>store.before_change(1) ? store.change_last_volt(-1*100) : false
+  var incrementL2=()=>store.change_last_volt(1*10)
+  var decrementL2=()=>store.before_change(2) ? store.change_last_volt(-1*10) : false
+  var incrementL3=()=>store.change_last_volt(1*1)
+  var decrementL3=()=>store.before_change(3) ? store.change_last_volt(-1*1) : false
+  var incrementL4=()=>store.change_last_volt(1*0.1)
+  var decrementL4=()=>store.before_change(4) ? store.change_last_volt(-1*0.1) : false
   var g1_freq_valid=computed(()=>Number(g1_freq.value )|| g1_freq.value== "" ? "null" : "invalid") 
   var g1_volt_valid=computed(()=>(Number(g1_volt.value) || g1_volt.value== "")  &&  (g1_volt.value <= 20 && g1_volt.value >= 0) ? "null" : "invalid") 
-  // var g1_input1_valid=computed(()=>(Number(g1_input1.value) || g1_input1.value== "")  &&  (g1_input1.value <= 20 && g1_input1.value >= 0) ? "null" : "invalid") // 
-  // var g1_input2_valid=computed(()=>(Number(g1_input2.value) || g1_input2.value== "")  &&  (g1_input2.value <= 10 && g1_input2.value >= 0) ? "null" : "invalid") // 
   var g2_freq_valid=computed(()=>Number(g2_freq.value )|| g2_freq.value== "" ? "null" : "invalid") 
   var g2_volt_valid=computed(()=>(Number(g2_volt.value) || g2_volt.value== "")  &&  g2_volt.value <= 20 ? "null" : "invalid") 
   function g1_sendCommand(){
@@ -224,7 +219,6 @@ import { ref, computed, watch } from 'vue'
       return
       }
     store.sendPostRequest(command, "generator-two")
-    // console.log("send: ", data) //
     g2_volt.value=""
     g2_freq.value=""
   }
