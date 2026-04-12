@@ -78,16 +78,18 @@
               </div>
             </div>
             <VibeFormInput
+            type="number"
             class="pb-1"
             @keyup.enter="g1_sendCommand"
-            v-model.trim="g1_freq"
+            v-model.number="g1_freq"
             :validationState="g1_freq_valid"
             validationMessage='Значение дожно быть числом'
             placeholder="Частота, Гц"
             />
             <VibeFormInput
+            type="number"
             @keyup.enter="g1_sendCommand"
-            v-model.trim="g1_volt"
+            v-model.number="g1_volt"
             :validationState="g1_volt_valid"
             validationMessage='Значение дожно быть числом от 0 до 20'
             placeholder="Напряжение, В"
@@ -123,16 +125,18 @@
               </div>
             </div>
             <VibeFormInput
+            type="number"
             class="pb-1"
             @keyup.enter="g2_sendCommand"
-            v-model.trim="g2_freq"
+            v-model.number="g2_freq"
             :validationState="g2_freq_valid"
             validationMessage='Значение дожно быть числом'
             placeholder="Частота, Гц"
             />
             <VibeFormInput
+            type="number"
             @keyup.enter="g2_sendCommand"
-            v-model.trim="g2_volt"
+            v-model.number="g2_volt"
             :validationState="g2_volt_valid"
             validationMessage='Значение дожно быть числом от 0 до 20'
             placeholder="Напряжение, В"
@@ -217,12 +221,12 @@ import { ref, computed, } from 'vue'
     }
     else{
       console.log("ни одно условие не совпало")
-      return
+        return
       
     }
     if (g2_volt_valid.value != "invalid"){
       console.log("g2_freq_valid.value : ", g2_freq_valid.value )
-      store.sendPostRequest(command, "generator-one")
+      store.sendPostRequest(command, "generator-two")
       }
     // console.log("send: ", data) //
     g2_volt.value=""
