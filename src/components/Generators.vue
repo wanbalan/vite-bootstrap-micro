@@ -78,15 +78,19 @@
               </div>
             </div>
             <VibeFormInput
+            pattern="[0-9]*"
+            inputmode="numeric"
             type="number"
             class="pb-1"
             @keyup.enter="g1_sendCommand"
-            v-model.number="g1_freq"
+            v-model="g1_freq"
             :validationState="g1_freq_valid"
-            validationMessage='Значение дожно быть числом'
+            validationMessage='Значение дожно быть числом больше 0'
             placeholder="Частота, Гц"
             />
             <VibeFormInput
+            pattern="[0-9]*"
+            inputmode="numeric"
             type="number"
             @keyup.enter="g1_sendCommand"
             v-model.number="g1_volt"
@@ -125,15 +129,19 @@
               </div>
             </div>
             <VibeFormInput
+            pattern="[0-9]*"
+            inputmode="numeric"
             type="number"
             class="pb-1"
             @keyup.enter="g2_sendCommand"
             v-model.number="g2_freq"
             :validationState="g2_freq_valid"
-            validationMessage='Значение дожно быть числом'
+            validationMessage='Значение дожно быть числом больше 0'
             placeholder="Частота, Гц"
             />
             <VibeFormInput
+            pattern="[0-9]*"
+            inputmode="numeric"
             type="number"
             @keyup.enter="g2_sendCommand"
             v-model.number="g2_volt"
@@ -176,23 +184,24 @@ import { ref, computed, } from 'vue'
   var decrementL3=()=>store.before_change(3) ? store.change_last_volt(-1*1) : false
   var incrementL4=()=>store.change_last_volt(1*0.1)
   var decrementL4=()=>store.before_change(4) ? store.change_last_volt(-1*0.1) : false
-  var g1_freq_valid=computed(()=>Number(g1_freq.value) || g1_freq.value== "" ? "null" : "invalid") 
-  var g1_volt_valid=computed(()=>(Number(g1_volt.value) <= 20 || g1_volt.value=="" ) ? "null" : "invalid") 
+
+  var g1_freq_valid=computed(()=>  (Number(g1_freq.value) > 0 || g1_freq.value== "" )? "null" : "invalid") 
+  var g1_volt_valid=computed(()=>((Number(g1_volt.value) <= 20 && Number(g1_volt.value) > 0) || g1_volt.value=="" ) ? "null" : "invalid") 
 
 
-  var g2_freq_valid=computed(()=>Number(g2_freq.value) || g2_freq.value== "" ? "null" : "invalid") 
-  var g2_volt_valid=computed(()=>(Number(g2_volt.value) <= 20 || g2_volt.value=="" ) ? "null" : "invalid") 
+  var g2_freq_valid=computed(()=>  (Number(g2_freq.value) > 0  || g2_freq.value== "" )? "null" : "invalid") 
+  var g2_volt_valid=computed(()=>((Number(g2_volt.value) <= 20 && Number(g2_volt.value) > 0) || g2_volt.value=="" ) ? "null" : "invalid") 
 
   function g1_sendCommand(){
     var command=`${g1_picked.value}:`
     if (g1_freq.value != "" && g1_volt.value != "" && g1_volt_valid.value != "invalid" && g1_freq_valid.value != "invalid"){
-      command+=`APPL:SIN ${g1_freq.value},${g1_volt.value}\r\n`
+      command+=`APPL:SIN ${g1_freq.value},${g1_volt.value}VPP\r\n`
     }
     else if (g1_freq.value != "" && g1_volt.value == "" && g1_freq_valid.value != "invalid"){
       command+=`APPL:SIN ${g1_freq.value}\r\n`
     }
     else if (g1_freq.value == "" && g1_volt.value != "" && g1_volt_valid.value != "invalid" ){
-      command+=`VOLT ${g1_volt.value}\r\n`
+      command+=`VOLT ${g1_volt.value}VPP\r\n`
     }
     else{
       console.log("ни одно условие не совпало")
@@ -211,13 +220,13 @@ import { ref, computed, } from 'vue'
   function g2_sendCommand(){
     var command=`${g2_picked.value}:`
     if (g2_freq.value != "" && g2_volt.value != "" && g2_volt_valid.value != "invalid" && g2_freq_valid.value != "invalid"){
-      command+=`APPL:SIN ${g2_freq.value},${g2_volt.value}\r\n`
+      command+=`APPL:SIN ${g2_freq.value},${g2_volt.value}VPP\r\n`
     }
     else if (g2_freq.value != "" && g2_volt.value == "" && g2_freq_valid.value != "invalid"){
       command+=`APPL:SIN ${g2_freq.value}\r\n`
     }
     else if (g2_freq.value == "" && g2_volt.value != "" && g2_volt_valid.value != "invalid" ){
-      command+=`VOLT ${g2_volt.value}\r\n`
+      command+=`VOLT ${g2_volt.value}VPP\r\n`
     }
     else{
       console.log("ни одно условие не совпало")
