@@ -5,6 +5,23 @@
               <div class="card shadow-0  border-warning">
                 <div class="card-header">Точная настройка, mV</div>
                 <div class="card-body">
+
+                <div class="row row-cols-2">
+                  <div class="col">
+                  <VibeFormSwitch
+                    v-model="store.ch1_enabled"
+                    label="CH1"
+                  />
+                  </div>
+                  <div class="col">
+                    <VibeFormSwitch
+                    v-model="store.ch2_enabled"
+                    label="CH2"
+                  />
+                  </div>
+                </div>
+
+                
                 <div class="row row-cols-5 ">
                   <div class="col">
                     <div class="row">

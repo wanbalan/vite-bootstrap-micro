@@ -1,13 +1,17 @@
 import tinyweb
 import network
-import uasyncio as asyncio
-from machine import Timer, Pin, freq, UART, ADC
-from boot import led_wifi,led_data,adc
+import asyncio
+import time
+from machine import Timer, Pin, UART, ADC
+
+led_wifi = Pin(40, Pin.OUT, Pin.PULL_DOWN)
+led_data = Pin(39, Pin.OUT, Pin.PULL_DOWN)
+adc = ADC(Pin(14), atten=ADC.ATTN_11DB)
 
 TIME_CHECK_LED=2000
-TIME_CHECK_WIFI_CONNECTION=10_000
-TIME_TOGGLE_WIFI_LED=300
-TIME_TOGGLE_DATA_LED=500
+TIME_CHECK_WIFI_CONNECTION=5_000
+TIME_TOGGLE_WIFI_LED=200
+TIME_TOGGLE_DATA_LED=200
 app = tinyweb.webserver()
 
 # 'SOUR1:OUTput on\r\n'
@@ -71,19 +75,22 @@ async def files_js(req, resp, fn):
                          content_encoding='gzip')
 
 async def send_command_to_gen1(command):
-    uart.init(9600, 8, None, 1, rx=g1_rx, tx=g1_tx, invert=UART.INV_RX | UART.INV_RX)
+    uart.init(9600, 8, None, 1, rx=g1_rx, tx=g1_tx, invert=UART.INV_RX | UART.INV_TX)
     uart.write(command)
+    await toggle_ledd()
+
 
 async def send_command_to_gen2(command):
-    uart.init(9600, 8, None, 1, rx=g2_rx, tx=g2_tx, invert=UART.INV_RX | UART.INV_RX)
+    uart.init(9600, 8, None, 1, rx=g2_rx, tx=g2_tx, invert=UART.INV_RX | UART.INV_TX)
     uart.write(command)
+    await toggle_ledd()
 
 @app.resource('/info', method='GET')
 async def battery_info(data):
     volt=float(adc.read_uv())/1000_000 # 2.597
-    if volt >= 2.596:
+    if volt >= 2.6:
         answer="100"
-    elif volt < 2.596 and volt > 2.590:
+    elif volt < 2.6 and volt > 2.590:
         answer="50"
     else:
         answer="0"
@@ -93,15 +100,14 @@ async def battery_info(data):
     # yield f"'battery': {x}"
     yield '}'
 
-async def toggle_led_data():
+async def toggle_ledd():
     led_data.toggle()
-    await asyncio.sleep_ms(TIME_TOGGLE_DATA_LED)
+    time.sleep_ms(TIME_TOGGLE_DATA_LED)
     led_data.toggle()
 
 @app.resource('/generator-one/command', method='POST')
 async def generator_one(data):
     await send_command_to_gen1(data["command"])
-    await toggle_led_data()
     print('generator-one',data["command"])
     yield '"{'
     yield f"'status': 200"
@@ -110,7 +116,6 @@ async def generator_one(data):
 @app.resource('/generator-two/command', method='POST')
 async def generator_two(data):
     await send_command_to_gen2(data["command"])
-    await toggle_led_data()
     print('generator-two',data["command"])
     yield '"{'
     yield f"'status': 200"
@@ -118,7 +123,7 @@ async def generator_two(data):
 
 def activate_tim0():
     global tim0_is_active
-    tim0.init(period=TIME_TOGGLE_WIFI_LED, mode=Timer.PERIODIC, callback=led_wifi.toggle)
+    tim0.init(period=TIME_TOGGLE_WIFI_LED, mode=Timer.PERIODIC, callback=lambda t: led_wifi.toggle() )
     tim0_is_active=True
 
 def deactivate_tim0():
@@ -137,21 +142,19 @@ def check_connection(timer):
             activate_tim0()
 
 
-async def check_led():
-    led_wifi.toggle()
-    led_data.toggle()
-    await asyncio.sleep_ms(TIME_CHECK_LED)
-    led_data.toggle()
-    led_data.toggle()
+def check_led():
+    time.sleep_ms(TIME_CHECK_LED)
+    led_data.on()
+    led_wifi.on()
 
 async def all_shutdown():
     await asyncio.sleep_ms(100)
 # if __name__ == '__main__':
 try:
-    g1_rx = Pin(10)
+    g1_rx = Pin(11)
     g1_tx = Pin(12)
-    g2_rx = Pin(13)
-    g2_tx = Pin(14)
+    g2_rx = Pin(10)
+    g2_tx = Pin(13)
     ap = network.WLAN(network.AP_IF)
     uart=UART(1)
     tim0_is_active=False
@@ -160,8 +163,10 @@ try:
 
     # led_wifi = Pin(1, Pin.OUT, Pin.PULL_UP)
     # led_data = Pin(2, Pin.OUT, Pin.PULL_UP)
-    network_up()
+    led_data.off()
+    led_wifi.off()
     check_led()
+    network_up()
     activate_tim0()
     tim1.init(period=TIME_CHECK_WIFI_CONNECTION, mode=Timer.PERIODIC, callback=check_connection)
 
@@ -172,4 +177,5 @@ except KeyboardInterrupt as e:
     print(' CTRL+C pressed - terminating...')
     app.shutdown()
     asyncio.get_event_loop().run_until_complete(all_shutdown())
+
 

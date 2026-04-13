@@ -3,12 +3,26 @@ import {computed,ref,watch }from 'vue'
 	export const useCounterStore = defineStore('counter', () => {
 	  const TIME_BATERY_UPDATE=60*1000*5 // 5min
 	  const TIME_SEND_FREQ=500 // 200ms
+	  const PORT="80"
+	  const HOST=`http://192.168.4.1:${PORT}`
+	  // const PORT="8080"
+	  // const HOST=`http://127.0.0.1:${PORT}`
 	  var changed_by_gen_menu=ref(false)
+	  var ch1_enabled=ref(true)
+	  var ch2_enabled=ref(true)
 
     setInterval(async () => {
       if (prev_last_volt.value != last_volt.value && changed_by_gen_menu.value){
         console.log("stInterval 200")
-        sendPostRequest(`SOUR2:VOLT ${last_volt.value}mvrms\r\n`,"generator-two")
+        if (ch1_enabled.value && ch2_enabled.value){
+          sendPostRequest(`SOUR1:VOLT ${last_volt.value}mvrms;:SOUR2:VOLT ${last_volt.value}mvrms\r\n`,"generator-two")
+          }
+        else if (ch1_enabled.value ){
+          sendPostRequest(`SOUR1:VOLT ${last_volt.value}mvrms\r\n`,"generator-two")
+          }
+        else {
+          sendPostRequest(`SOUR2:VOLT ${last_volt.value}mvrms\r\n`,"generator-two")
+          }
         prev_last_volt.value=last_volt.value
         changed_by_gen_menu.value=false
       }
@@ -162,14 +176,14 @@ var setting_esu_222_1 = computed(() => {
     
 
 	var zam222_col2 = ref([
-      { gen1:{ ch1: { gz: "2160", U: "2" }, ch2:{ gz: "", U: ""} } ,  gen2:{ ch1: { gz: "120", U: "38.4" }, ch2:{ gz:  "120", U:  "38.4"} } },
-      { gen1:{ ch1: { gz: "2160", U: "2" }, ch2:{ gz: "", U: ""} } ,  gen2:{ ch1: { gz: "120", U: "76.8" }, ch2:{ gz:  "120", U:  "76.8"} } },
-      { gen1:{ ch1: { gz: "3960", U: "2" }, ch2:{ gz: "", U: ""} } ,  gen2:{ ch1: { gz: "220", U: "35.4" }, ch2:{ gz:  "220", U:  "35.4"} } },
-      { gen1:{ ch1: { gz: "3960", U: "2" }, ch2:{ gz: "", U: ""} } ,  gen2:{ ch1: { gz: "220", U: "141.6" }, ch2:{ gz:  "220", U:  "141.6"} } },
-      { gen1:{ ch1: { gz: "646", U: "2" }, ch2:{ gz: "", U: ""} } ,  gen2:{ ch1: { gz: "170", U: "54.6" }, ch2:{ gz:  "170", U:  "54.6"} } },
-      { gen1:{ ch1: { gz: "646", U: "2" }, ch2:{ gz: "", U: ""} } ,  gen2:{ ch1: { gz: "170", U: "109.3" }, ch2:{ gz:  "170", U:  "109.3"} } },
-      { gen1:{ ch1: { gz: "1253", U: "2" }, ch2:{ gz: "", U: ""} } ,  gen2:{ ch1: { gz: "330", U: "53.1" }, ch2:{ gz:  "330", U:  "53.1"} } },
-      { gen1:{ ch1: { gz: "1253", U: "2" }, ch2:{ gz: "", U: ""} } ,  gen2:{ ch1: { gz: "330", U: "212" }, ch2:{ gz:  "330", U:  "212"} } }],)
+      { gen1:{ ch1: { gz: "2160", U: "2" }, ch2:{ gz: "65", U: "2"} } ,  gen2:{ ch1: { gz: "120", U: "38.4" }, ch2:{ gz:  "120", U:  "38.4"} } },
+      { gen1:{ ch1: { gz: "2160", U: "2" }, ch2:{ gz: "65", U: "2"} } ,  gen2:{ ch1: { gz: "120", U: "76.8" }, ch2:{ gz:  "120", U:  "76.8"} } },
+      { gen1:{ ch1: { gz: "3960", U: "2" }, ch2:{ gz: "65", U: "2"} } ,  gen2:{ ch1: { gz: "220", U: "35.4" }, ch2:{ gz:  "220", U:  "35.4"} } },
+      { gen1:{ ch1: { gz: "3960", U: "2" }, ch2:{ gz: "65", U: "2"} } ,  gen2:{ ch1: { gz: "220", U: "141.6" }, ch2:{ gz:  "220", U:  "141.6"} } },
+      { gen1:{ ch1: { gz: "1000", U: "2" }, ch2:{ gz: "646", U: "2"} } ,  gen2:{ ch1: { gz: "170", U: "54.6" }, ch2:{ gz:  "170", U:  "54.6"} } },
+      { gen1:{ ch1: { gz: "1000", U: "2" }, ch2:{ gz: "646", U: "2"} } ,  gen2:{ ch1: { gz: "170", U: "109.3" }, ch2:{ gz:  "170", U:  "109.3"} } },
+      { gen1:{ ch1: { gz: "1000", U: "2" }, ch2:{ gz: "1253", U: "2"} } ,  gen2:{ ch1: { gz: "330", U: "53.1" }, ch2:{ gz:  "330", U:  "53.1"} } },
+      { gen1:{ ch1: { gz: "1000", U: "2" }, ch2:{ gz: "1253", U: "2"} } ,  gen2:{ ch1: { gz: "330", U: "212" }, ch2:{ gz:  "330", U:  "212"} } }],)
 
 	var zam222_col1 = ref([
     { gen1:{ ch1: { gz: "1000", U: "2" }, ch2:{ gz:  "65", U:  "2"} } },
@@ -178,7 +192,7 @@ var setting_esu_222_1 = computed(() => {
 
 
   var zamERRD_18_200_80_col1=ref([
-      { gen1:{ ch1: { gz: "10000", U: "2" }, ch2:{ gz:  "65", U:  "2"} } ,  gen2:{ ch1: { gz: "500", U: "402.1" }, ch2:{ gz:  "600", U:  "1025.1"} } },
+      { gen1:{ ch1: { gz: "326.5", U: "2" }, ch2:{ gz:  "326.5", U:  "2"} } ,  gen2:{ ch1: { gz: "500", U: "402.1" }, ch2:{ gz:  "600", U:  "1025.1"} } },
       { gen1:{ ch1: { gz: "3755.1", U: "20" }, ch2:{ gz:  "3755.1", U:  "20"} } ,  gen2:{ ch1: { gz: "400", U: "683.5" }, ch2:{ gz:  "400", U:  "160.8"} } },
       { gen1:{ ch1: { gz: "1632.65", U: "20" }, ch2:{ gz:  "1632.65", U:  "20"} },  gen2:{ ch1: { gz: "600", U: "1025.3" }, ch2:{ gz:  "700", U:  "562.9"} } },
       { gen1:{ ch1: { gz: "7510.2", U: "3" }, ch2:{ gz:  "7510.2", U:  "3"} } ,  gen2:{ ch1: { gz: "800", U: "321.7" }, ch2:{ gz:  "800", U:  "1367"} } },
@@ -251,7 +265,7 @@ var setting_esu_222_1 = computed(() => {
 
     async function sendPostRequest(data, generator) {
       console.log("data for send: ", data, "generator:->", generator)
-      var url=`http://127.0.0.1:8080/${generator}/command`
+      var url=`${HOST}/${generator}/command`
       var bigdata=JSON.stringify({"command": data})
 
       try {
@@ -282,7 +296,7 @@ var setting_esu_222_1 = computed(() => {
     }, TIME_BATERY_UPDATE); // Выполняется каждую секунду
 
     async function battery_info(){
-      fetch('http://127.0.0.1:8080/info')
+      fetch(`${HOST}/info`)
       .then(response => {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -310,5 +324,5 @@ var setting_esu_222_1 = computed(() => {
 
     }
 
-  return {before_change,change_last_volt,l4,l3,l2,l1,l0,devide_last_volt,last_volt,setting_1700,zamERRD1700_col2,zamERRD1700_col1,get_command_g1,get_command_g2,battery_icon, battery_info,sendPostRequest,showed,showed2,title,with_one_collumn,zamERRD436,zamESU436,zam222_col2,zam222_col1,zamESU_222_1, list_one_collumn ,setting_436 ,setting_222 ,setting_errd_18_200_80 , setting_esu_222_1 ,setting_errd436 ,setting , }
+  return {ch2_enabled,ch1_enabled,before_change,change_last_volt,l4,l3,l2,l1,l0,devide_last_volt,last_volt,setting_1700,zamERRD1700_col2,zamERRD1700_col1,get_command_g1,get_command_g2,battery_icon, battery_info,sendPostRequest,showed,showed2,title,with_one_collumn,zamERRD436,zamESU436,zam222_col2,zam222_col1,zamESU_222_1, list_one_collumn ,setting_436 ,setting_222 ,setting_errd_18_200_80 , setting_esu_222_1 ,setting_errd436 ,setting , }
 })
