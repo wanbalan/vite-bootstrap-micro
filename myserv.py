@@ -1,4 +1,4 @@
-import tinyweb
+import tinyweb, uasyncio
 from random import randint
 # import network
 # from machine import Timer, Pin, freq, UART, ADC
@@ -63,6 +63,20 @@ async def index(req, resp, fn):
     await resp.send_file('static/{}'.format(fn),
                          content_type=content_type)
 
+@app.resource('/telnet/<fn>', method='GET')
+async def telner_manager(data, fn):
+    status="200"
+    if fn == "start":
+        print("telner_manager: ", fn)
+    elif fn == "stop":
+        print("telner_manager: ", fn)
+    else:
+        print("telner_manager: ", fn)
+        status="400"
+                
+    yield '{'
+    yield '"status": ' + status 
+    yield '}'
 #JS
 @app.route('/assets/<fn>')
 async def files_js(req, resp, fn):

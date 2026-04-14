@@ -23,6 +23,12 @@
             </a>
         </ul>
      </div>
+      <VibeFormSwitch
+      class="text-muted m-2"
+      v-model="store.telnet_active"
+      label="telnet"
+      :validationState="checktelnet"
+    />
     </div>
   </div>
 </nav>
@@ -33,7 +39,12 @@
 <script setup lang="ts">
 import { useCounterStore } from '../store/MapStore'
 const store = useCounterStore()
-// import {computed, }from 'vue' //
+import {computed, }from 'vue'
+
+var checktelnet=computed(()=> {
+  store.telnet_toggle(store.telnet_active ? "start" : "stop")
+  return null
+})
 
 var clickOnDevice=(item)=>{
   store.title=item
