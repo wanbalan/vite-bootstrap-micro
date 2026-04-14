@@ -3,72 +3,123 @@ import {computed,ref,watch }from 'vue'
 	export const useCounterStore = defineStore('counter', () => {
 	  const TIME_BATERY_UPDATE=60*1000*5 // 5min
 	  const TIME_SEND_FREQ=500 // 200ms
-	  const PORT="80"
-	  const HOST=`http://192.168.4.1:${PORT}`
-	  // const PORT="8080"
-	  // const HOST=`http://127.0.0.1:${PORT}`
-	  var changed_by_gen_menu=ref(false)
-	  var ch1_enabled=ref(true)
-	  var ch2_enabled=ref(true)
+	  // const PORT="80"
+	  // const HOST=`http://192.168.4.1:${PORT}`
+	  const PORT="8080"
+	  const HOST=`http://127.0.0.1:${PORT}`
+	  var changed_by_gen_menu_ch1=ref(false)
+	  var changed_by_gen_menu_ch2=ref(false)
+	  var link_ch1_ch2=ref(false)
 
     setInterval(async () => {
-      if (prev_last_volt.value != last_volt.value && changed_by_gen_menu.value){
-        console.log("stInterval 200")
-        if (ch1_enabled.value && ch2_enabled.value){
-          sendPostRequest(`SOUR1:VOLT ${last_volt.value}mvrms;:SOUR2:VOLT ${last_volt.value}mvrms\r\n`,"generator-two")
-          }
-        else if (ch1_enabled.value ){
-          sendPostRequest(`SOUR1:VOLT ${last_volt.value}mvrms\r\n`,"generator-two")
-          }
+      if (prev_last_volt_ch1.value != last_volt_ch1.value && changed_by_gen_menu_ch1.value){
+        if(link_ch1_ch2.value) {
+          console.log("stInterval 200")
+          sendPostRequest(`SOUR1:VOLT ${last_volt_ch1.value}mvrms;:SOUR2:VOLT ${last_volt_ch1.value}mvrms\r\n`,"generator-two")
+          prev_last_volt_ch1.value=last_volt_ch1.value
+          last_volt_ch2.value=last_volt_ch1.value
+          changed_by_gen_menu_ch1.value=false
+          changed_by_gen_menu_ch2.value=false
+          
+        }
         else {
-          sendPostRequest(`SOUR2:VOLT ${last_volt.value}mvrms\r\n`,"generator-two")
+          console.log("stInterval 200")
+          sendPostRequest(`SOUR1:VOLT ${last_volt_ch1.value}mvrms\r\n`,"generator-two")
+          prev_last_volt_ch1.value=last_volt_ch1.value
+          changed_by_gen_menu_ch1.value=false
+          
+        }
+      }
+      if (prev_last_volt_ch2.value != last_volt_ch2.value && changed_by_gen_menu_ch2.value){
+        if(link_ch1_ch2.value) {
+          console.log("stInterval 200")
+          sendPostRequest(`SOUR1:VOLT ${last_volt_ch2.value}mvrms;:SOUR2:VOLT ${last_volt_ch2.value}mvrms\r\n`,"generator-two")
+          prev_last_volt_ch2.value=last_volt_ch2.value
+          last_volt_ch1.value=last_volt_ch2.value
+          changed_by_gen_menu_ch2.value=false
+          changed_by_gen_menu_ch1.value=false
+          
+        }
+        else {
+          console.log("stInterval 200")
+          sendPostRequest(`SOUR2:VOLT ${last_volt_ch2.value}mvrms\r\n`,"generator-two")
+          prev_last_volt_ch2.value=last_volt_ch2.value
+          changed_by_gen_menu_ch2.value=false
           }
-        prev_last_volt.value=last_volt.value
-        changed_by_gen_menu.value=false
       }
 
     }, TIME_SEND_FREQ); 
 
 	battery_info()
-	var last_volt=ref("0")
-	var prev_last_volt=ref("0")
+
+	var last_volt_ch1=ref("0")
+	var last_volt_ch2=ref("0")
+	var prev_last_volt_ch1=ref("0")
+	var prev_last_volt_ch2=ref("0")
   var g1_output1=ref(0)
   var g1_output2=ref(0)
   var g2_output1=ref(0)
   var g2_output2=ref(0)
 
-    var l0=ref("0")
-    var l1=ref("0")
-    var l2=ref("0")
-    var l3=ref("0")
-    var l4=ref("0")
+  watch(last_volt_ch1, ()=> devide_last_volt_ch1())
+  watch(last_volt_ch2, ()=> devide_last_volt_ch2())
 
-    watch(last_volt, ()=> devide_last_volt())
+  var l0=ref("0")
+  var l1=ref("0")
+  var l2=ref("0")
+  var l3=ref("0")
+  var l4=ref("0")
 
-    function before_change(index){
-      var LL=[l0,l1,l2,l3,l4].slice(0,index+1)
-      var res=LL.find((val)=> Number.parseFloat(val.value)!=0 ) || false
-        console.log("res", res, LL.length)
-      return res
-    }
 
-  function change_last_volt(volt){
+  function before_change_ch1(index){
+    var LL=[l0,l1,l2,l3,l4].slice(0,index+1)
+    var res=LL.find((val)=> Number.parseFloat(val.value)!=0 ) || false
+      console.log("res", res, LL.length)
+    return res
+  }
+
+  var r0=ref("0")
+  var r1=ref("0")
+  var r2=ref("0")
+  var r3=ref("0")
+  var r4=ref("0")
+
+
+  function before_change_ch2(index){
+    var LL=[r0,r1,r2,r3,r4].slice(0,index+1)
+    var res=LL.find((val)=> Number.parseFloat(val.value)!=0 ) || false
+      console.log("res", res, LL.length)
+    return res
+  }
+
+  function change_last_volt_ch1(volt){
     var concatL=""
     var LL=[l0.value,l1.value,l2.value,l3.value,]
       LL.forEach((val,)=>{
         concatL+=val.toString()
        })
     var full_volt=Number.parseFloat(concatL)+ Number.parseFloat(`0.${l4.value}`)+ volt
-    last_volt.value=full_volt.toFixed(1).toString()
-    changed_by_gen_menu.value=true
-    console.log("change_last_volt! ", last_volt.value)
-        
+    last_volt_ch1.value=full_volt.toFixed(1).toString()
+    changed_by_gen_menu_ch1.value=true
+    console.log("change_last_volt_ch1! ", last_volt_ch1.value)
+  }
+
+  function change_last_volt_ch2(volt){
+    var concatL=""
+    var LL=[r0.value,r1.value,r2.value,r3.value,]
+      LL.forEach((val,)=>{
+        concatL+=val.toString()
+       })
+    var full_volt=Number.parseFloat(concatL)+ Number.parseFloat(`0.${r4.value}`)+ volt
+    last_volt_ch2.value=full_volt.toFixed(1).toString()
+    changed_by_gen_menu_ch2.value=true
+    console.log("change_last_volt_ch2! ", last_volt_ch2.value)
   }
   
-  function devide_last_volt(){
-      // console.log("devide_last_volt!")
-    if (last_volt.value.includes(".")){
-      var [start, end ]=last_volt.value.split(".")
+  function devide_last_volt_ch1(){
+      // console.log("devide_last_volt_ch1!")
+    if (last_volt_ch1.value.includes(".")){
+      var [start, end ]=last_volt_ch1.value.split(".")
       var l_start=start.split("")
       l4.value=end[0] || "0"
       l3.value=l_start.pop() || "0"
@@ -77,12 +128,34 @@ import {computed,ref,watch }from 'vue'
       l0.value=l_start.pop() || "0"
       }
     else {
-      l_start=last_volt.value.split("")
+      l_start=last_volt_ch1.value.split("")
       l4.value="0"
       l3.value=l_start.pop() || "0"
       l2.value=l_start.pop() || "0"
       l1.value=l_start.pop() || "0"
       l0.value=l_start.pop() || "0"
+    }
+  }
+
+  
+  function devide_last_volt_ch2(){
+      // console.log("devide_last_volt_ch2!")
+    if (last_volt_ch2.value.includes(".")){
+      var [start, end ]=last_volt_ch2.value.split(".")
+      var l_start=start.split("")
+      r4.value=end[0] || "0"
+      r3.value=l_start.pop() || "0"
+      r2.value=l_start.pop() || "0"
+      r1.value=l_start.pop() || "0"
+      r0.value=l_start.pop() || "0"
+      }
+    else {
+      l_start=last_volt_ch2.value.split("")
+      r4.value="0"
+      r3.value=l_start.pop() || "0"
+      r2.value=l_start.pop() || "0"
+      r1.value=l_start.pop() || "0"
+      r0.value=l_start.pop() || "0"
     }
   }
 
@@ -324,5 +397,5 @@ var setting_esu_222_1 = computed(() => {
 
     }
 
-  return {ch2_enabled,ch1_enabled,before_change,change_last_volt,l4,l3,l2,l1,l0,devide_last_volt,last_volt,setting_1700,zamERRD1700_col2,zamERRD1700_col1,get_command_g1,get_command_g2,battery_icon, battery_info,sendPostRequest,showed,showed2,title,with_one_collumn,zamERRD436,zamESU436,zam222_col2,zam222_col1,zamESU_222_1, list_one_collumn ,setting_436 ,setting_222 ,setting_errd_18_200_80 , setting_esu_222_1 ,setting_errd436 ,setting , }
+  return {last_volt_ch1,last_volt_ch2,link_ch1_ch2,r1,r2,r3,r4,r0,before_change_ch1,before_change_ch2,change_last_volt_ch1,change_last_volt_ch2,l4,l3,l2,l1,l0,devide_last_volt_ch1,devide_last_volt_ch2,setting_1700,zamERRD1700_col2,zamERRD1700_col1,get_command_g1,get_command_g2,battery_icon, battery_info,sendPostRequest,showed,showed2,title,with_one_collumn,zamERRD436,zamESU436,zam222_col2,zam222_col1,zamESU_222_1, list_one_collumn ,setting_436 ,setting_222 ,setting_errd_18_200_80 , setting_esu_222_1 ,setting_errd436 ,setting , }
 })

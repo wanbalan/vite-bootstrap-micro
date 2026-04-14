@@ -89,13 +89,17 @@ const { deviceSetting,} = computed(() => ({
       if (store.title == "ЭСУ-436" || store.title == "ЭРРД-436" ){
         store.sendPostRequest(`SOUR1:APPL:SQU ${but.gen1.ch1.gz},${but.gen1.ch1.U};:SOUR2:APPL:SQU ${but.gen1.ch2.gz},${but.gen1.ch2.U}\r\n`, "generator-one")
       }
-      else if (store.title == "ЭСУ-222" || store.title == "ЭРРД-1700" ){
+      else if (store.title == "ЭСУ-222" ){
         store.sendPostRequest(`SOUR1:APPL:SIN ${but.gen1.ch1.gz},${but.gen1.ch1.U};:SOUR2:APPL:SIN ${but.gen1.ch2.gz},${but.gen1.ch2.U}\r\n`, "generator-one")
+      }
+      else if (store.title == "ЭРРД-1700" ){
+        store.sendPostRequest(`SOUR1:APPL:SIN ${but.gen1.ch1.gz},${but.gen1.ch1.U};:SOUR2:APPL:SIN ${but.gen1.ch2.gz},${but.gen1.ch2.U}\r\n`, "generator-two")
       }
       else {
         store.sendPostRequest(`SOUR1:APPL:SIN ${but.gen1.ch1.gz},${but.gen1.ch1.U};:SOUR2:APPL:SIN ${but.gen1.ch2.gz},${but.gen1.ch2.U}\r\n`, "generator-one")
         store.sendPostRequest(`SOUR1:APPL:SIN ${but.gen2.ch1.gz},${but.gen2.ch1.U}mvrms;:SOUR2:APPL:SIN ${but.gen2.ch2.gz},${but.gen2.ch2.U}mvrms\r\n`, "generator-two")
-        store.last_volt=but.gen2.ch2.U
+        store.last_volt_ch2=but.gen2.ch2.U
+        store.last_volt_ch1=but.gen2.ch1.U
       }
   }
 
@@ -105,13 +109,14 @@ const { deviceSetting,} = computed(() => ({
         store.sendPostRequest(`SOUR1:APPL:SQU ${but.gen1.ch1.gz},${but.gen1.ch1.U};:SOUR2:APPL:SQU ${but.gen1.ch2.gz},${but.gen1.ch2.U}\r\n`, "generator-one")
       }
       else if (store.title == "ЭРРД-1700" ){
-        store.sendPostRequest(`SOUR1:APPL:SIN ${but.gen1.ch1.gz},${but.gen1.ch1.U};:SOUR2:APPL:SIN ${but.gen1.ch2.gz},${but.gen1.ch2.U}\r\n`, "generator-one")
-        store.last_volt=but.gen1.ch2.U
+        store.sendPostRequest(`SOUR1:APPL:SIN ${but.gen1.ch1.gz},${but.gen1.ch1.U};:SOUR2:APPL:SIN ${but.gen1.ch2.gz},${but.gen1.ch2.U}\r\n`, "generator-two")
+        store.last_volt_ch2=but.gen1.ch2.U
       }
       else {
         store.sendPostRequest(`SOUR1:APPL:SIN ${but.gen1.ch1.gz},${but.gen1.ch1.U};:SOUR2:APPL:SIN ${but.gen1.ch2.gz},${but.gen1.ch2.U}\r\n`, "generator-one")
         store.sendPostRequest(`SOUR1:APPL:SIN ${but.gen2.ch1.gz},${but.gen2.ch1.U}mvrms;:SOUR2:APPL:SIN ${but.gen2.ch2.gz},${but.gen2.ch2.U}mvrms\r\n`, "generator-two")
-        store.last_volt=but.gen2.ch2.U
+        store.last_volt_ch2=but.gen2.ch2.U
+        store.last_volt_ch1=but.gen2.ch1.U
       }
   }
 

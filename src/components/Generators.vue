@@ -1,70 +1,23 @@
 <template>
 <div class="container-fluid pb-2 px-0">
   <div class="row">
-            <div class="col  col-sm ">
-              <div class="card shadow-0  border-warning">
-                <div class="card-header">Точная настройка, mV</div>
-                <div class="card-body">
-
-                <div class="row row-cols-2">
-                  <div class="col">
-                  <VibeFormSwitch
-                    v-model="store.ch1_enabled"
-                    label="CH1"
-                  />
-                  </div>
-                  <div class="col">
-                    <VibeFormSwitch
-                    v-model="store.ch2_enabled"
-                    label="CH2"
-                  />
-                  </div>
-                </div>
-
-                
-                <div class="row row-cols-5 ">
-                  <div class="col">
-                    <div class="row">
-                      <vibe-icon type="button" @click="incrementL0" icon="arrow-up-short" class="fs-4 p-1  py-0  bs-primary"></vibe-icon>
-                      <vibe-icon @wheel.prevent="w_incrementL0" :icon="store.l0+'-circle'" class="fs-3 p-1 py-0 text-success"></vibe-icon>
-                      <vibe-icon type="button" @click="decrementL0" icon="arrow-down-short" class="fs-4 p-1 py-0 "></vibe-icon>
-                    </div>
-                  </div>
-                  <div class="col">
-                    <div class="row">
-                      <vibe-icon type="button"  @click="incrementL1" icon="arrow-up-short" class="fs-4 p-1   py-0 bs-primary"></vibe-icon>
-                      <vibe-icon @wheel.prevent="w_incrementL1" :icon="store.l1+'-circle'" class="fs-3 p-1 py-0 text-success"></vibe-icon>
-                      <vibe-icon type="button"  @click="decrementL1" icon="arrow-down-short" class="fs-4 p-1 py-0 "></vibe-icon>
-                    </div>
-                  </div>
-                  <div class="col">
-                    <div class="row">
-                      <vibe-icon type="button"  @click="incrementL2" icon="arrow-up-short" class="fs-4 p-1  py-0  bs-primary"></vibe-icon>
-                      <vibe-icon @wheel.prevent="w_incrementL2" :icon="store.l2+'-circle'" class="fs-3 p-1 py-0 text-success"></vibe-icon>
-                      <vibe-icon type="button"  @click="decrementL2" icon="arrow-down-short" class="fs-4 p-1 py-0 "></vibe-icon>
-                    </div>
-                  </div>
-                <div class="col">
-                  <div class="row">
-                    <vibe-icon type="button"  @click="incrementL3" icon="arrow-up-short" class="fs-4 p-1  py-0 "></vibe-icon>
-                    <vibe-icon @wheel.prevent="w_incrementL3" :icon="store.l3+'-circle'" class="fs-3 p-1 py-0 text-success"></vibe-icon>
-                    <vibe-icon type="button"  @click="decrementL3" icon="arrow-down-short" class="fs-4 p-1 py-0 "></vibe-icon>
-                  </div>
-                </div>
-                <div class="col">
-                  <div class="row">
-                    <vibe-icon type="button" @click="incrementL4" icon="arrow-up-short" class="fs-4 p-1 py-0 "></vibe-icon>
-                    <vibe-icon @wheel.prevent="w_incrementL4" :icon="store.l4+'-circle'" class="fs-3 p-1 py-0 text-danger"></vibe-icon>
-                    <vibe-icon type="button" @click="decrementL4" icon="arrow-down-short" class="fs-4 p-1 py-0 "></vibe-icon>
-                  </div>
-                </div>
-                </div>
-              </div>
+    <div class="col  col-sm ">
+      <div class="card shadow-0  border-warning">
+        <div class="card-header">Подстройка, mV</div>
+        <div class="card-body py-0">
+          <AccuracityCh1/>
+          <div>
+            <div class="divider">
+              <span class="divider-text">
+                <vibe-icon @click="store.link_ch1_ch2=!store.link_ch1_ch2" :class="store.link_ch1_ch2 ? 'text-warning' : 'text-muted' " type="button" icon="link" class="fs-4 p-0 m-0 "></vibe-icon>
+              </span>
             </div>
-</div>
-
-
-</div>
+          </div>
+          <AccuracityCh2/>
+        </div>
+      </div>
+    </div>
+  </div>
   </div>
 
         
@@ -176,6 +129,8 @@
 </template>
 
 <script setup lang="ts">
+import AccuracityCh1 from './Accuracity_ch1.vue'
+import AccuracityCh2 from './Accuracity_ch2.vue'
 import { useCounterStore } from '../store/MapStore'
 const store = useCounterStore()
 import { ref, computed, } from 'vue'
@@ -186,21 +141,6 @@ import { ref, computed, } from 'vue'
   var g1_volt=ref("")
   var g2_freq=ref("")
   var g2_volt=ref("")
-  var w_incrementL0=(event)=>event.deltaY < 0 ? incrementL0() : decrementL0()
-  var w_incrementL1=(event)=>event.deltaY < 0 ? incrementL1() : decrementL1() 
-  var w_incrementL2=(event)=>event.deltaY < 0 ? incrementL2() : decrementL2() 
-  var w_incrementL3=(event)=>event.deltaY < 0 ? incrementL3() : decrementL3() 
-  var w_incrementL4=(event)=>event.deltaY < 0 ? incrementL4() : decrementL4() 
-  var incrementL0=()=>store.change_last_volt(1*1000)
-  var decrementL0=()=> store.before_change(0) ? store.change_last_volt(-1*1000) : false
-  var incrementL1=()=>store.change_last_volt(1*100)
-  var decrementL1=()=>store.before_change(1) ? store.change_last_volt(-1*100) : false
-  var incrementL2=()=>store.change_last_volt(1*10)
-  var decrementL2=()=>store.before_change(2) ? store.change_last_volt(-1*10) : false
-  var incrementL3=()=>store.change_last_volt(1*1)
-  var decrementL3=()=>store.before_change(3) ? store.change_last_volt(-1*1) : false
-  var incrementL4=()=>store.change_last_volt(1*0.1)
-  var decrementL4=()=>store.before_change(4) ? store.change_last_volt(-1*0.1) : false
 
   var g1_freq_valid=computed(()=>  (Number(g1_freq.value) > 0 || g1_freq.value== "" )? "null" : "invalid") 
   var g1_volt_valid=computed(()=>((Number(g1_volt.value) <= 20 && Number(g1_volt.value) > 0) || g1_volt.value=="" ) ? "null" : "invalid") 
@@ -259,3 +199,31 @@ import { ref, computed, } from 'vue'
     g2_freq.value=""
   }
 </script>
+
+
+<style scoped>
+.divider {
+  display: flex;
+  align-items: center;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #333;
+}
+
+.divider::before {
+  margin-right: 10px;
+}
+
+.divider::after {
+  margin-left: 10px;
+}
+
+.divider-text {
+  white-space: nowrap;
+}
+</style>
