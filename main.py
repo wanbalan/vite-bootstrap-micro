@@ -1,5 +1,6 @@
 import tinyweb
 import network
+# import utelnetserver
 import uasyncio as asyncio
 import time
 from machine import Timer, Pin, UART, ADC
@@ -11,18 +12,18 @@ adc = ADC(Pin(14), atten=ADC.ATTN_11DB)
 TIME_CHECK_LED=2000
 TIME_CHECK_WIFI_CONNECTION=5_000
 TIME_TOGGLE_WIFI_LED_BEFORE_CONNECTION=200
-TIME_TOGGLE_WIFI_LED_AFTER_CONNECTION=2_000
-TIME_TOGGLE_DATA_LED=200
-TIME_TOGGLE_WIFI_LED=200
+TIME_TOGGLE_WIFI_LED_AFTER_CONNECTION=7_000
+TIME_TOGGLE_DATA_LED=5
+TIME_TOGGLE_WIFI_LED=30
 app = tinyweb.webserver()
 
 # 'SOUR1:OUTput on\r\n'
 # "SOUR1:APPL:SIN 3333.0e+0,2vpp;:SOUR2:APPL:SIN 122.0e+0,1vpp\r\n"
 # "SOUR1:APPL:SIN 3333,1vpp;:SOUR2:APPL:SIN 1033,1vpp\r\n"
 # uart.write('OUTput1 1;OUTput2 1\r\n')
-
-
-
+# 
+# 
+# 
 def network_up():
     ap.active(True)
     ap.config(essid='sudo_su', authmode=network.AUTH_WPA_WPA2_PSK, password='1234~8765', txpower=2, pm=network.WLAN.PM_POWERSAVE)
@@ -67,16 +68,6 @@ async def files_js(req, resp, fn):
                          content_type=content_type,
                          content_encoding='gzip')
 
-async def send_command_to_gen1(command):
-    uart.init(9600, 8, None, 1, rx=g1_rx, tx=g1_tx, invert=UART.INV_RX | UART.INV_TX)
-    uart.write(command)
-    await toggle_ledd()
-
-
-async def send_command_to_gen2(command):
-    uart.init(9600, 8, None, 1, rx=g2_rx, tx=g2_tx, invert=UART.INV_RX | UART.INV_TX)
-    uart.write(command)
-    await toggle_ledd()
 
 @app.resource('/info', method='GET')
 async def battery_info(data):
@@ -91,17 +82,22 @@ async def battery_info(data):
     yield '{'
     yield '"battery": ' + answer
     yield '}'
-
+    
+# async def telnet_start():
+#     print("I run telnet")
+#     utelnetserver.start()
+#     yield "true"
+    
 @app.resource('/telnet/<fn>', method='GET')
 async def telner_manager(data, fn):
+    global telnet_active
     status="200"
     if fn == "start":
-        import utelnetserver
-        utelnetserver.start()
+        # await telnet_start()
         telnet_active=True
     elif fn == "stop":
         if telnet_active:
-            utelnetserver.stop()
+            # utelnetserver.stop()
             telnet_active=False
     else:
         print("telner_manager: ", fn)
@@ -111,19 +107,30 @@ async def telner_manager(data, fn):
     yield '"status": ' + status 
     yield '}'
 
-async def toggle_ledd():
-    led_data.toggle()
-    time.sleep_ms(TIME_TOGGLE_DATA_LED)
-    led_data.toggle()
-
-async def toggle_ledw():
+def toggle_ledd():
     led_data.off()
-    asyncio.sleep_ms(TIME_TOGGLE_WIFI_LED)
+    time.sleep_ms(TIME_TOGGLE_DATA_LED)
     led_data.on()
 
+def toggle_ledw(timer):
+    led_wifi.off()
+    time.sleep_ms(TIME_TOGGLE_WIFI_LED)
+    led_wifi.on()
+
+def send_command_to_gen1(command):
+    uart.init(9600, 8, None, 1, rx=g1_rx, tx=g1_tx, invert=UART.INV_RX | UART.INV_TX)
+    uart.write(command)
+    toggle_ledd()
+
+
+def send_command_to_gen2(command):
+    uart.init(9600, 8, None, 1, rx=g2_rx, tx=g2_tx, invert=UART.INV_RX | UART.INV_TX)
+    uart.write(command)
+    toggle_ledd()
+    
 @app.resource('/generator-one/command', method='POST')
 async def generator_one(data):
-    await send_command_to_gen1(data["command"])
+    send_command_to_gen1(data["command"])
     print('generator-one',data["command"])
     yield '"{'
     yield f"'status': 200"
@@ -131,35 +138,40 @@ async def generator_one(data):
 
 @app.resource('/generator-two/command', method='POST')
 async def generator_two(data):
-    await send_command_to_gen2(data["command"])
+    send_command_to_gen2(data["command"])
     print('generator-two',data["command"])
     yield '"{'
     yield f"'status': 200"
     yield '}"'
 
 def activate_tim0(time=TIME_TOGGLE_WIFI_LED_BEFORE_CONNECTION, callback=lambda t: led_wifi.toggle()):
-    global tim0_is_active
+    global tim0_is_active_before
     tim0.init(period=time, mode=Timer.PERIODIC, callback=callback)
-    tim0_is_active=True
+    
 
 def deactivate_tim0():
-    global tim0_is_active
+    global tim0_is_active_before, tim0_is_active_after
     tim0.deinit()
-    tim0_is_active=False
+    tim0_is_active_before=False
+    tim0_is_active_after = False
 
 def check_connection(timer):
-    global tim0_is_active
+    global tim0_is_active_before,tim0_is_active_after
     if ap.isconnected():
-        if tim0_is_active:
+        if tim0_is_active_before:
             deactivate_tim0()
             activate_tim0(time=TIME_TOGGLE_WIFI_LED_AFTER_CONNECTION, callback=toggle_ledw)
+            tim0_is_active_after=True
             led_wifi.on()
     else:
-        activate_tim0()
+        if not tim0_is_active_before:
+            deactivate_tim0()
+            activate_tim0()
+            tim0_is_active_before=True
 
 
 def check_led():
-    time.sleep_ms(TIME_CHECK_LED)
+    asyncio.sleep_ms(TIME_CHECK_LED)
     led_data.on()
     led_wifi.on()
 
@@ -173,7 +185,8 @@ try:
     g2_tx = Pin(13)
     ap = network.WLAN(network.AP_IF)
     uart=UART(1)
-    tim0_is_active=False
+    tim0_is_active_before=False
+    tim0_is_active_after=False
     telnet_active=False
     tim0 = Timer(0)
     tim1 = Timer(1)
@@ -185,6 +198,7 @@ try:
     check_led()
     network_up()
     activate_tim0()
+    tim0_is_active_before=True
     tim1.init(period=TIME_CHECK_WIFI_CONNECTION, mode=Timer.PERIODIC, callback=check_connection)
 
 
@@ -194,5 +208,6 @@ except KeyboardInterrupt as e:
     print(' CTRL+C pressed - terminating...')
     app.shutdown()
     asyncio.get_event_loop().run_until_complete(all_shutdown())
+
 
 

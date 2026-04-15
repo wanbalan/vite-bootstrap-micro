@@ -1,7 +1,7 @@
 from machine import Pin, freq, ADC
 
-Pin(12, Pin.OUT, Pin.PULL_DOWN)
-Pin(13, Pin.OUT, Pin.PULL_DOWN)
+# Pin(12, Pin.OUT, Pin.PULL_DOWN)
+# Pin(13, Pin.OUT, Pin.PULL_DOWN)
 freq(80_000_000)
 led_wifi = Pin(40, Pin.OUT, Pin.PULL_DOWN)
 led_data = Pin(39, Pin.OUT, Pin.PULL_DOWN)
