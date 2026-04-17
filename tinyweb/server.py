@@ -11,6 +11,7 @@ import uos as os
 import sys
 import uerrno as errno
 import usocket as socket
+import aiorepl
 
 
 log = logging.getLogger('WEB')
@@ -682,6 +683,7 @@ class webserver:
         """
         self._server_coro = self._tcp_server(host, port, self.backlog)
         self.loop.create_task(self._server_coro)
+        self.loop.create_task(aiorepl.task())
         if loop_forever:
             self.loop.run_forever()
 

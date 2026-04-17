@@ -1,5 +1,6 @@
 import tinyweb, uasyncio
 from random import randint
+import uaioftp
 # import network
 # from machine import Timer, Pin, freq, UART, ADC
     # adc=ADC(Pin(14),atten=ADC.ATTN_11DB)
@@ -77,6 +78,27 @@ async def telner_manager(data, fn):
     yield '{'
     yield '"status": ' + status 
     yield '}'
+
+
+@app.resource('/ftp/<fn>', method='GET')
+async def ftp_manager(data, fn):
+    # global telnet_active
+    status="200"
+    if fn == "start":
+        utelnetserver.start()
+        # telnet_active=True
+    elif fn == "stop":
+        if telnet_active:
+            utelnetserver.stop()
+            # telnet_active=False
+    else:
+        print("ftp_manager: ", fn)
+        status="400"
+                
+    yield '{'
+    yield '"status": ' + status 
+    yield '}'
+
 #JS
 @app.route('/assets/<fn>')
 async def files_js(req, resp, fn):

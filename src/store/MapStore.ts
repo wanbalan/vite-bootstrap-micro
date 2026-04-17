@@ -3,10 +3,10 @@ import {computed,ref,watch }from 'vue'
 	export const useCounterStore = defineStore('counter', () => {
 	  const TIME_BATERY_UPDATE=60*1000*5 // 5min
 	  const TIME_SEND_FREQ=500 // 200ms
-	  const PORT="80"
-	  const HOST=`http://192.168.4.1:${PORT}`
-	  // const PORT="8080"
-	  // const HOST=`http://127.0.0.1:${PORT}`
+	  // const PORT="80"
+	  // const HOST=`http://192.168.4.1:${PORT}`
+	  const PORT="8080"
+	  const HOST=`http://127.0.0.1:${PORT}`
 	  var changed_by_gen_menu_ch1=ref(false)
 	  var changed_by_gen_menu_ch2=ref(false)
 	  var link_ch1_ch2=ref(false)

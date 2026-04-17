@@ -1,6 +1,6 @@
 import tinyweb
 import network
-# import utelnetserver
+import utelnetserver
 import uasyncio as asyncio
 import time
 from machine import Timer, Pin, UART, ADC
@@ -86,18 +86,18 @@ async def battery_info(data):
 # async def telnet_start():
 #     print("I run telnet")
 #     utelnetserver.start()
-#     yield "true"
+    # yield "true"
     
 @app.resource('/telnet/<fn>', method='GET')
 async def telner_manager(data, fn):
     global telnet_active
     status="200"
     if fn == "start":
-        # await telnet_start()
+        utelnetserver.start()
         telnet_active=True
     elif fn == "stop":
         if telnet_active:
-            # utelnetserver.stop()
+            utelnetserver.stop()
             telnet_active=False
     else:
         print("telner_manager: ", fn)
@@ -106,6 +106,7 @@ async def telner_manager(data, fn):
     yield '{'
     yield '"status": ' + status 
     yield '}'
+
 
 def toggle_ledd():
     led_data.off()
