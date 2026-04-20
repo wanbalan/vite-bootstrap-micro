@@ -1,6 +1,9 @@
-import tinyweb, uasyncio
+import tinyweb 
+import uasyncio as asyncio
 from random import randint
-import uaioftp
+from uaioftp import uaioftpd
+HOST='127.0.0.1'
+PORT=8080
 # import network
 # from machine import Timer, Pin, freq, UART, ADC
     # adc=ADC(Pin(14),atten=ADC.ATTN_11DB)
@@ -80,25 +83,6 @@ async def telner_manager(data, fn):
     yield '}'
 
 
-@app.resource('/ftp/<fn>', method='GET')
-async def ftp_manager(data, fn):
-    # global telnet_active
-    status="200"
-    if fn == "start":
-        utelnetserver.start()
-        # telnet_active=True
-    elif fn == "stop":
-        if telnet_active:
-            utelnetserver.stop()
-            # telnet_active=False
-    else:
-        print("ftp_manager: ", fn)
-        status="400"
-                
-    yield '{'
-    yield '"status": ' + status 
-    yield '}'
-
 #JS
 @app.route('/assets/<fn>')
 async def files_js(req, resp, fn):
@@ -153,15 +137,36 @@ async def generator_two(data):
     yield f"'status': {x}"
     yield '}"'
 
+@app.resource('/ftp/<fn>', method='GET')
+async def ftp_manager(data, fn):
+    current_loop=asyncio.get_event_loop()
+    print("loop: ", current_loop)
+    status="200"
+    if fn == "start":
+        ftpd=uaioftpd()
+        current_loop.create_task(asyncio.start_server(ftpd.server, "0.0.0.0", 4444))
+        
+        # telnet_active=True
+    elif fn == "stop":
+        pass
+            # telnet_active=False
+    else:
+        print("ftp_manager: ", fn)
+        status="400"
+                
+    yield '{'
+    yield '"status": ' + status 
+    yield '}'
+
 
 # if __name__ == '__main__':
 try:
     # app.add_resource(SetValue, '/set')
     # uart=UART()
-    print("http://127.0.0.1:8080")
-    app.run(host='127.0.0.1', port=8080)
+    print(f"http://{HOST}:{PORT}")
+    app.run(host=HOST, port=PORT)
 except KeyboardInterrupt as e:
     print(' CTRL+C pressed - terminating...')
     app.shutdown()
-    uasyncio.get_event_loop().run_until_complete(all_shutdown())
+    asyncio.get_event_loop().run_until_complete(all_shutdown())
 
