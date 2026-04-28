@@ -1,0 +1,27 @@
+
+[[sources.paths]] # list of paths to load on current source
+scope = ["bash"]  # optional scopes for current snippets
+path = "snippets/bash/bash.json"  # where snippet file or dir located in repo
+
+[[sources.paths]] # list of paths to load on current source
+scope = ["python"]  # optional scopes for current snippets
+path = "snippets/python/python.json"  # where snippet file or dir located in repo
+
+[language.python]
+formatter = "black"
+
+[[sources.paths]] # list of paths to load on current source
+scope = ["javascript"]  # optional scopes for current snippets
+path = "/home/m9y/.config/helix/snippets/javascript/javascript.json"
+
+[[sources.paths]] # list of paths to load on current source
+scope = ["vue"]  # optional scopes for current snippets
+path = "vuehtml.json"  # where snippet file or dir located in repo
+path = "vue.json"  # where snippet file or dir located in repo
+path = "vuescript.json "  # where snippet file or dir located in repo
+path = "vuestyle.json"  # where snippet file or dir located in repo
+
+[[sources.paths]] # list of paths to load on current source
+scope = ["html"]  # optional scopes for current snippets
+path = "snippets/html.json"  # where snippet file or dir located in repo
+

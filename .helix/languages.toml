@@ -1,0 +1,188 @@
+[language-server.lsp-ai]
+command = "lsp-ai"
+
+[language-server.lsp-ai.config.memory]
+file_store = { }
+
+[language-server.lsp-ai.config.models.model1]
+# type = "open_ai"
+type = "ollama"
+# chat_endpoint = "https://ai.wormsoft.ru/api/gpt/chat/completions"
+# completions_endpoint = "https://ai.wormsoft.ru/api/gpt/chat/completions"
+# # model =  "qwen/qwen3.5-plus"
+# model =  "qwen/qwen3.5-35b"
+# # model =  "qwen3:0.6b"
+# # n_ctx = 2048
+model =  "qwen2.5-coder-7b-instruct-q4_k_m:latest"
+# # model =  "openai/gpt-5.4-mini"
+# # model =  "openai/gpt-5.2"
+# # auth_token_env_var_name = "OPENAI_API_KEY"
+
+[[language-server.lsp-ai.config.chat]]
+trigger = "#C"
+action_display_name = "Chat"
+model = "model1"
+
+[language-server.lsp-ai.config.chat.parameters]
+max_context = 4096
+max_tokens = 1024
+
+[[language-server.lsp-ai.config.chat.parameters.messages]]
+role="system"
+content = "You are a chatbot Python coding assistant. The user will ask you for assistance coding and you will do you best to answer succinctly and accurately."
+# system = "You are a chatbot Rust coding assistant. The user will ask you for assistance coding and you will do you best to answer succinctly and accurately."
+
+[[language-server.lsp-ai.config.chat]]
+trigger = "#CC"
+action_display_name = "Chat with context"
+model = "model1"
+
+[language-server.lsp-ai.config.chat.parameters]
+max_context = 4096
+max_tokens = 1024
+
+[[language-server.lsp-ai.config.chat.parameters.messages]]
+role="system"
+# content= "You are a chatbot Python coding assistant. The user will ask you for assistance coding and you will do you best to answer succinctly "
+system = "You are a chatbot Python coding assistant. The user will ask you for assistance coding and you will do you best to answer succinctly and accurately given the code context:\n\n{CONTEXT}"
+      
+
+# [language-server.lsp-ai.config.completion]
+# model = "model1"
+
+# [language-server.lsp-ai.config.completion.parameters]
+# max_tokens = 64
+# max_context = 1024
+# # Configure the messages per your needs
+
+
+# [[language-server.lsp-ai.config.completion.parameters.messages]]
+# role = "system"
+# content = "Instructions:\n- You are an AI programming assistant.\n- Given a piece of code with the cursor location marked by \"<CURSOR>\", replace \"<CURSOR>\" with the correct code or comment.\n- First, think step-by-step.\n- Describe your plan for what to build in pseudocode, written out in great detail.\n- Then output the code replacing the \"<CURSOR>\"\n- Ensure that your completion fits within the language context of the provided code snippet (e.g., Python, JavaScript, Rust).\n\nRules:\n- Only respond with code or comments.\n- Only replace \"<CURSOR>\"; do not include any previously written code.\n- Never include \"<CURSOR>\" in your response\n- If the cursor is within a comment, complete the comment meaningfully.\n- Handle ambiguous cases by providing the most contextually appropriate completion.\n- Be consistent with your responses."
+
+# [[language-server.lsp-ai.config.completion.parameters.messages]]
+# role = "user"
+# content = "def greet(name):\n    print(f\"Hello, {<CURSOR>}\")"
+
+# [[language-server.lsp-ai.config.completion.parameters.messages]]
+# role = "assistant"
+# content = "name"
+
+# [[language-server.lsp-ai.config.completion.parameters.messages]]
+# role = "user"
+# content = "function sum(a, b) {\n    return a + <CURSOR>;\n}"
+
+# [[language-server.lsp-ai.config.completion.parameters.messages]]
+# role = "assistant"
+# content = "b"
+
+# [[language-server.lsp-ai.config.completion.parameters.messages]]
+# role = "user"
+# content = "fn multiply(a: i32, b: i32) -> i32 {\n    a * <CURSOR>\n}"
+
+# [[language-server.lsp-ai.config.completion.parameters.messages]]
+# role = "assistant"
+# content = "b"
+
+# [[language-server.lsp-ai.config.completion.parameters.messages]]
+# role = "user"
+# content = "# <CURSOR>\ndef add(a, b):\n    return a + b"
+
+# [[language-server.lsp-ai.config.completion.parameters.messages]]
+# role = "assistant"
+# content = "Adds two numbers"
+
+# [[language-server.lsp-ai.config.completion.parameters.messages]]
+# role = "user"
+# content = "# This function checks if a number is even\n<CURSOR>"
+
+# [[language-server.lsp-ai.config.completion.parameters.messages]]
+# role = "assistant"
+# content = "def is_even(n):\n    return n % 2 == 0"
+
+# [[language-server.lsp-ai.config.completion.parameters.messages]]
+# role = "user"
+# content = "{CODE}"
+
+[language-server.hx-lsp]
+command = "hx-lsp"
+
+[language-server.pylsp]
+command = "pylsp"
+
+[language-server.emmet-ls]
+args = ["--stdio"]
+command="emmet-ls"
+
+[language-server.volar-vls]
+command="/home/m9y/.yarn/bin/vls"
+args = ["--stdio"]
+
+[[language]]
+name = "python"
+language-servers = [ "hx-lsp", "pylsp", "lsp-ai" ]
+auto-format = true
+
+[[language]]
+name = "markdown"
+language-servers = [ "hx-lsp", "lsp-ai"]
+
+[[language]]
+name = "bash"
+language-servers = [ "hx-lsp", "bash-language-server"]
+
+[language-server.rust-analyzer.config.check]
+command = "clippy"
+
+[[language]]
+name = "rust"
+language-servers = [  "hx-lsp", "rust-analyzer", "lsp-ai" ]
+workspace-lsp-roots = ["fuzz"]
+scope = "source.rust"
+file-types = ["rs"]
+roots = ["Cargo.toml", "Cargo.lock"]
+auto-format = true
+
+[[language]]
+name = "git-commit"
+language-servers = [ "hx-lsp" ]
+
+[[language]]
+name = "javascript"
+file-types = ["js", "ts"]
+language-servers = [ "hx-lsp", "typescript-language-server", "typescript" ]
+
+
+[[language]]
+name = "css"
+language-servers = [ "hx-lsp" ]
+
+[[language]]
+name = "vue"
+auto-format = true
+formatter = { command = "prettier", args = ["--parser", "vue"] }
+language-servers = ["typescript-language-server", "hx-lsp", "emmet-ls" ]
+
+[[language-server.typescript-language-server.config.plugins]]
+name = "@vue/typescript-plugin"
+location = "/home/lion/.nvm/versions/node/v24.7.0/lib/node_modules/@vue/typescript-plugin"
+# location = "/home/mo/.config/nvm/versions/node/v22.20.0/lib/node_modules/@vue/language-server"
+languages = ["vue"]
+
+[[language]]
+name = "html"
+language-servers = [ "hx-lsp", "emmet-ls" ]
+scope = "text.html.basic"
+injection-regex = "html"
+file-types = ["html", "htm", "shtml", "xhtml", "xht", "jsp", "asp", "aspx", "jshtm", "volt", "rhtml", "cshtml"]
+block-comment-tokens = { start = "<!--", end = "-->" }
+auto-format = true
+indent = { tab-width = 2, unit = "  " }
+
+[language.auto-pairs]
+'{' = '}'
+'[' = ']'
+'"' = '"'
+'`' = '`'
+'<' = '>'
+

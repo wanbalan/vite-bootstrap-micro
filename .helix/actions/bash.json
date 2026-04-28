@@ -1,0 +1,44 @@
+{
+	"red": {
+		"title": "RED",
+		"filter": "",
+		"shell": ["echo -n \"\\${RED}${TM_SELECTED_TEXT}\\${RESET}\""],
+		"description": "replace with test uuid"
+	},
+	"green": {
+		"title": "GREEN",
+		"filter": "",
+		"shell": ["echo -n \"\\${GREEN}${TM_SELECTED_TEXT}\\${RESET}\""],
+		"description": "bold"
+	},
+	"cian": {
+		"title": "CIAN",
+		"filter": "",
+		"shell": ["echo -n \"\\${CIAN}${TM_SELECTED_TEXT}\\${RESET}\""],
+		"description": "bold"
+	},
+	"orange": {
+		"title": "ORANGE",
+		"filter": "",
+		"shell": ["echo -n \"\\${ORANGE}${TM_SELECTED_TEXT}\\${RESET}\""],
+		"description": "bold"
+	},
+	"blue": {
+		"title": "BLUE",
+		"filter": "",
+		"shell": ["echo -n \"\\${BLUE}${TM_SELECTED_TEXT}\\${RESET}\""],
+		"description": "bold"
+	},
+	"lightgreen": {
+		"title": "LIGHTGREEN",
+		"filter": "",
+		"shell": ["echo -n \"\\${lightgreen}${TM_SELECTED_TEXT}\\${RESET}\""],
+		"description": "bold"
+	},
+	"yellow": {
+		"title": "YELLOW",
+		"filter": "",
+		"shell": ["echo -n \"\\${YELLOW}${TM_SELECTED_TEXT}\\${RESET}\""],
+		"description": "yellow"
+	}
+}

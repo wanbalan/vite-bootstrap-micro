@@ -3,14 +3,15 @@ import {computed,ref,watch }from 'vue'
 	export const useCounterStore = defineStore('counter', () => {
 	  const TIME_BATERY_UPDATE=60*1000*5 // 5min
 	  const TIME_SEND_FREQ=500 // 200ms
-	  // const PORT="80"
-	  // const HOST=`http://192.168.4.1:${PORT}`
-	  const PORT="8080"
-	  const HOST=`http://127.0.0.1:${PORT}`
+	  const PORT="80"
+	  const HOST=`http://192.168.4.1:${PORT}`
+	  // const PORT="8080"
+	  // const HOST=`http://127.0.0.1:${PORT}`
 	  var changed_by_gen_menu_ch1=ref(false)
 	  var changed_by_gen_menu_ch2=ref(false)
 	  var link_ch1_ch2=ref(false)
 	  var telnet_active=ref(false)
+	  var ftp_active=ref(false)
 
     setInterval(async () => {
       if (prev_last_volt_ch1.value != last_volt_ch1.value && changed_by_gen_menu_ch1.value){
@@ -412,5 +413,19 @@ var setting_esu_222_1 = computed(() => {
 
     }
 
-  return {telnet_toggle,telnet_active,last_volt_ch1,last_volt_ch2,link_ch1_ch2,r1,r2,r3,r4,r0,before_change_ch1,before_change_ch2,change_last_volt_ch1,change_last_volt_ch2,l4,l3,l2,l1,l0,devide_last_volt_ch1,devide_last_volt_ch2,setting_1700,zamERRD1700_col2,zamERRD1700_col1,get_command_g1,get_command_g2,battery_icon, battery_info,sendPostRequest,showed,showed2,title,with_one_collumn,zamERRD436,zamESU436,zam222_col2,zam222_col1,zamESU_222_1, list_one_collumn ,setting_436 ,setting_222 ,setting_errd_18_200_80 , setting_esu_222_1 ,setting_errd436 ,setting , }
+async function ftp_toggle(command){
+      fetch(`${HOST}/ftp/${command}`)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log("command: ", command, "data[status] ", data["status"])
+      });
+
+    }
+
+  return {telnet_toggle,ftp_toggle,ftp_active,telnet_active,last_volt_ch1,last_volt_ch2,link_ch1_ch2,r1,r2,r3,r4,r0,before_change_ch1,before_change_ch2,change_last_volt_ch1,change_last_volt_ch2,l4,l3,l2,l1,l0,devide_last_volt_ch1,devide_last_volt_ch2,setting_1700,zamERRD1700_col2,zamERRD1700_col1,get_command_g1,get_command_g2,battery_icon, battery_info,sendPostRequest,showed,showed2,title,with_one_collumn,zamERRD436,zamESU436,zam222_col2,zam222_col1,zamESU_222_1, list_one_collumn ,setting_436 ,setting_222 ,setting_errd_18_200_80 , setting_esu_222_1 ,setting_errd436 ,setting , }
 })

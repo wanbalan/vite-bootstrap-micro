@@ -23,12 +23,22 @@
             </a>
         </ul>
      </div>
+    <div class="row row-cols-2  m=0 p=0">
+      <div class="col">
       <VibeFormSwitch
-      class="text-muted m-2"
+      class="text-muted mx-2 "
       v-model="store.telnet_active"
       label="telnet"
-      :validationState="checktelnet"
-    />
+      :validationState="checktelnet" />
+      </div>
+    <div class="col">
+      <VibeFormSwitch
+      class="text-muted mx-2 "
+      v-model="store.ftp_active"
+      label="ftpd"
+      :validationState="checkftp" />
+    </div>
+    </div>
     </div>
   </div>
 </nav>
@@ -46,7 +56,14 @@ var checktelnet=computed(()=> {
   return null
 })
 
+var checkftp=computed(()=> {
+  store.ftp_toggle(store.ftp_active ? "start" : "stop")
+  return null
+})
+
 var clickOnDevice=(item)=>{
+  var el= document.getElementsByClassName("btn-close")[0]  as HTMLElement
+  el.click()
   store.title=item
   store.showed=[]
   store.showed2=[]
@@ -64,11 +81,11 @@ var devices={
 
 <style scoped>
       #offcanvasNavbar {
-        width : 15%;
+        width : 20%;
       }
    @media (max-width: 500.98px) {
       #offcanvasNavbar {
-        width : 45%;
+        width : 55%;
       }
     }
 </style>
