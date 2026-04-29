@@ -5,18 +5,18 @@ command = "lsp-ai"
 file_store = { }
 
 [language-server.lsp-ai.config.models.model1]
-# type = "open_ai"
-type = "ollama"
-# chat_endpoint = "https://ai.wormsoft.ru/api/gpt/chat/completions"
+type = "open_ai"
+# type = "ollama"
+chat_endpoint = "https://ai.wormsoft.ru/api/gpt/chat/completions"
 # completions_endpoint = "https://ai.wormsoft.ru/api/gpt/chat/completions"
 # # model =  "qwen/qwen3.5-plus"
-# model =  "qwen/qwen3.5-35b"
+model =  "qwen/qwen3.5-35b"
 # # model =  "qwen3:0.6b"
 # # n_ctx = 2048
-model =  "qwen2.5-coder-7b-instruct-q4_k_m:latest"
+# model =  "qwen2.5-coder-7b-instruct-q4_k_m:latest"
 # # model =  "openai/gpt-5.4-mini"
 # # model =  "openai/gpt-5.2"
-# # auth_token_env_var_name = "OPENAI_API_KEY"
+auth_token_env_var_name = "OPENAI_API_KEY"
 
 [[language-server.lsp-ai.config.chat]]
 trigger = "#C"
