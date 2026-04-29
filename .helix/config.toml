@@ -46,22 +46,22 @@ render = true
 character = "╎" # Some characters that work well: "▏", "┆", "┊", "⸽"
 skip-levels = 1
 
-# [keys.normal]
-# tab = "no_op"
-# S-tab = "no_op"
-# space.T = ":sh ls"
-# # space.B = ":sh echo '%{language}:%{cursor_column}'"
-# space.B = ':sh -c \"echo "20 * 5" | bc\"'
-# C-x = "toggle_comments"
-# C-c = "collapse_selection"
+[keys.normal]
+tab = "no_op"
+S-tab = "no_op"
+space.T = ":sh ls"
+# space.B = ":sh echo '%{language}:%{cursor_column}'"
+space.B = ':sh -c \"echo "20 * 5" | bc\"'
+C-x = "toggle_comments"
+C-c = "collapse_selection"
 
-# [keys.insert]
-# S-tab = "no_op"
-# C-c = "normal_mode"
-# C-x = "toggle_comments"
+[keys.insert]
+S-tab = "no_op"
+C-c = "normal_mode"
+C-x = "toggle_comments"
 
-# [keys.select]
-# tab = "no_op"
-# S-tab = "no_op"
+[keys.select]
+tab = "no_op"
+S-tab = "no_op"
 # S-tab = "no_op"
 
