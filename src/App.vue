@@ -3,7 +3,7 @@
   <br /><br />
   <div class="container-fluid pt-3" data-bs-theme="dark">
     <div class="row">
-      <div class="col-6 col-md-3">
+      <div class="col-6 col-sm-4 col-md-3">
         <Generators></Generators>
       </div>
       <div class="col ps-0">

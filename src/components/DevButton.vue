@@ -50,7 +50,7 @@
         :key="index"
       >
         <VibeButton
-          class="col-8 col-sm-4 px-1"
+          class="col-8 col-sm-8 col-md-6 px-1"
           type="submit"
           @click="clickOnButtonFromOneColumn(index, but)"
         >
@@ -96,7 +96,7 @@
         :key="index"
       >
         <VibeButton
-          class="col-8 col-sm-4 px-1"
+          class="col-8 col-sm-8 col-md-6 px-1"
           type="submit"
           @click="clickOnButtonFromTwoColumn(index, but)"
         >

@@ -230,7 +230,7 @@ var setting_esu_222_1 = computed(() => {
       }})
 	var showed = ref([])
 	var showed2 = ref([])
-	var title = ref( "ЭРРД-18-200-80")
+	var title = ref( "ЭСУ-436")
 	var with_one_collumn = ref( ["ЭРРД-18-200-80","ЭСУ-222-1", ])
 	var zamERRD436 = ref([
       { gen1:{ ch1: { gz:"5500", U: "2" }, ch2:{ gz:  "14000", U: "2" } } },
