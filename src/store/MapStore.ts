@@ -427,5 +427,5 @@ async function ftp_toggle(command){
 
     }
 
-  return {telnet_toggle,ftp_toggle,ftp_active,telnet_active,last_volt_ch1,last_volt_ch2,link_ch1_ch2,r1,r2,r3,r4,r0,before_change_ch1,before_change_ch2,change_last_volt_ch1,change_last_volt_ch2,l4,l3,l2,l1,l0,devide_last_volt_ch1,devide_last_volt_ch2,setting_1700,zamERRD1700_col2,zamERRD1700_col1,get_command_g1,get_command_g2,battery_icon, battery_info,sendPostRequest,showed,showed2,title,with_one_collumn,zamERRD436,zamESU436,zam222_col2,zam222_col1,zamESU_222_1, list_one_collumn ,setting_436 ,setting_222 ,setting_errd_18_200_80 , setting_esu_222_1 ,setting_errd436 ,setting , }
+  return {g1_output1,g1_output2,g2_output1,g2_output2,telnet_toggle,ftp_toggle,ftp_active,telnet_active,last_volt_ch1,last_volt_ch2,link_ch1_ch2,r1,r2,r3,r4,r0,before_change_ch1,before_change_ch2,change_last_volt_ch1,change_last_volt_ch2,l4,l3,l2,l1,l0,devide_last_volt_ch1,devide_last_volt_ch2,setting_1700,zamERRD1700_col2,zamERRD1700_col1,get_command_g1,get_command_g2,battery_icon, battery_info,sendPostRequest,showed,showed2,title,with_one_collumn,zamERRD436,zamESU436,zam222_col2,zam222_col1,zamESU_222_1, list_one_collumn ,setting_436 ,setting_222 ,setting_errd_18_200_80 , setting_esu_222_1 ,setting_errd436 ,setting , }
 })
