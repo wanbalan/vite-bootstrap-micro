@@ -36,13 +36,13 @@
           <vibe-button
             @click="turn_one_output('CH1', 'generator-two')"
             variant="outline-secondary"
-            :class="store.g2_output1 ? 'text-primary' : ''"
+            :class="store.g1_output2 ? 'text-primary' : ''"
             >CH1</vibe-button
           >
           <vibe-button
             @click="turn_one_output('CH2', 'generator-two')"
             variant="outline-secondary"
-            :class="store.g2_output2 ? 'text-primary' : ''"
+            :class="store.g1_output2 ? 'text-primary' : ''"
             >CH2</vibe-button
           >
         </vibe-button-group>
@@ -86,11 +86,13 @@
         <vibe-button
           @click="turn_one_output('CH1', 'generator-two')"
           variant="outline-secondary"
+          :class="store.g2_output1 ? 'text-success' : ''"
           >CH1</vibe-button
         >
         <vibe-button
           @click="turn_one_output('CH2', 'generator-two')"
           variant="outline-secondary"
+          :class="store.g2_output2 ? 'text-success' : ''"
           >CH2</vibe-button
         >
       </vibe-button-group>
